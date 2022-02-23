@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .Fondo-menubar {
+    background-color: #5AC4FF;
+    margin-top: 0.5rem;
+    height: 50px;
+  }
+
+  .Fondo-menubar a {
+    padding: 3px;
+  }
+  
+  .centro {
+    margin-left: 33%;
+    margin-right: 33%;
+  }
+
+  .Links {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 3.0959752321981426vh;
+  }
+
+  .Links:hover{
+    color: #000000;
+  }
+
+  
