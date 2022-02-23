@@ -15,15 +15,14 @@ function Header() {
         navigate(path);
     }
     return (
-        <Container fluid>
+        <Container fluid={true}>
             <Row>
                 <Col className="d-flex justify-content-center">
                     <Form.Control type="email" placeholder="Busqueda en catalogo"
                         style={{
                             marginTop: "0.5rem",
-                            marginLeft: "30rem",
-                            display: "inline-block",
                             width: "480px",
+                            marginLeft: "45rem"
                         }}
                     />
                     <Row>
@@ -38,23 +37,22 @@ function Header() {
                     </Row>
                 </Col>
                 <Col className="d-flex justify-content-end">
-                    <NavLink 
-                    style={{
-                        marginTop:"0.4rem",
-                        color:"#000000"
-                    }}
+                    <NavLink
+                        style={{
+                            marginTop: "0.4rem",
+                            color: "#000000"
+                        }}
                     >Contactar</NavLink>
 
                     <NavLink
-                    style={{
-                        marginTop:"0.4rem",
-                        color:"#000000"
-                    }}
-                    onClick={() => handleClick("/Login")}
+                        style={{
+                            marginTop: "0.4rem",
+                            color: "#000000"
+                        }}
+                        onClick={() => handleClick("/Login")}
                     >Acceder</NavLink>
                 </Col>
             </Row>
-
         </Container>
     );
 }
