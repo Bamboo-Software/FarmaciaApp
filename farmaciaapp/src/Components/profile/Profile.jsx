@@ -13,7 +13,7 @@ function Profile() {
         navigate(path);
     }
     return (
-        <div>
+        <div className='contenedorUser'>
             <div>
                 <Form className='perfil'>
                     <Form.Group className="mb-3" controlId="nameProfile">
@@ -23,11 +23,6 @@ function Profile() {
                     <Form.Group className="mb-3" controlId="emailProfile">
                         <Form.Label>Correo de usuario</Form.Label>
                         <Form.Control type="email" placeholder="JoseGomez@gmail.com" disabled />
-                    </Form.Group>
-                    <Form.Group className="mb-3" >
-                        <NavLink onClick={() => handleClick("/Signup")}>Cambiar contraseña</NavLink>
-                        <Form.Text className="text-muted">
-                        </Form.Text>
                     </Form.Group>
                     <Button variant="info" type="submit">
                         Editar perfil
