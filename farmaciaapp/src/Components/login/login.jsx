@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-
+import './login.css';
 function Signup() {
     const navigate = useNavigate();
     function handleClick(path) {
@@ -11,7 +11,7 @@ function Signup() {
     }
     return (
         <div>
-            <Form>
+            <Form className='formulario'> 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" placeholder="Enter email" />
@@ -23,11 +23,11 @@ function Signup() {
                 </Form.Group>
                 <Form.Group className="mb-3" >
                     <Form.Text className="text-muted">
-                        Aun no tienes cuenta? <NavLink onClick={()=> handleClick("/Signup")}>Registrate</NavLink>
+                        <h8>Aun no tienes cuenta? <NavLink onClick={()=> handleClick("/Signup")}>Registrate</NavLink></h8>
                     </Form.Text>
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                    Submit
+                    Entrar
                 </Button>
             </Form>
         </div>
