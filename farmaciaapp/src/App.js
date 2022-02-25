@@ -5,7 +5,7 @@ import Login from "./Components/login/login"
 import Signup from "./Components/login/signup";
 import Home from "./Pages/Landing/Inicio";
 import Barra from "./Components/NavBar/NavBar";
-
+import Profile from "./Components/profile/Profile";
 function App() {
   return (
     <>
@@ -15,6 +15,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/Login" element={<Login/>} />
         <Route exact path="/Signup" element={<Signup/>} />
+        <Route exact path="/Profile" element={<Profile/>} />
       </Routes>
     </>
   );

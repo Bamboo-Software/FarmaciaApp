@@ -42,6 +42,11 @@ function Header() {
 
                     <NavLink onClick={() => handleClick("/Login")}>Acceder</NavLink>
                 </Col>
+                <Col className="d-flex justify-content-end">
+                    <NavLink>Contactar</NavLink>
+
+                    <NavLink onClick={() => handleClick("/Profile")}>Usuario</NavLink>
+                </Col>
             </Row>
 
         </Container>
