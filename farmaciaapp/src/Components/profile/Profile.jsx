@@ -17,12 +17,20 @@ function Profile() {
             <div>
                 <Form className='perfil'>
                     <Form.Group className="mb-3" controlId="nameProfile">
-                        <Form.Label>Nombre de usuario</Form.Label>
+                        <Form.Label>Nombre</Form.Label>
                         <Form.Control type="text" placeholder="Jose Gomez" disabled />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="emailProfile">
-                        <Form.Label>Correo de usuario</Form.Label>
+                        <Form.Label>Correo</Form.Label>
                         <Form.Control type="email" placeholder="JoseGomez@gmail.com" disabled />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="phoneProfile">
+                        <Form.Label>Telefono</Form.Label>
+                        <Form.Control type="text" placeholder="0000-0000" disabled />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="addressProfile">
+                        <Form.Label>Direccion</Form.Label>
+                        <Form.Control type="text" placeholder="Res. Las Uvas, Tegucigalpa, Francisco Morazan" disabled />
                     </Form.Group>
                     <Button variant="info" type="submit">
                         Editar perfil
