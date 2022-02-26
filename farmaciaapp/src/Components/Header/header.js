@@ -15,14 +15,15 @@ function Header() {
         navigate(path);
     }
     return (
-        <Container fluid={true}>
+        <Container fluid>
             <Row>
+                <Col className="d-flex justify-content-start">
+                </Col>
                 <Col className="d-flex justify-content-center">
                     <Form.Control type="email" placeholder="Busqueda en catalogo"
                         style={{
                             marginTop: "0.5rem",
-                            width: "480px",
-                            marginLeft: "45rem"
+                            width: "480px"
                         }}
                     />
                     <Row>
