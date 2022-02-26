@@ -61,6 +61,7 @@ function Home() {
                 </Col>
             </Row>
             <Container fluid>
+                <p></p>
                 <Row>
                     <Col className="d-flex justify-content-start">
                         <h1
@@ -72,11 +73,11 @@ function Home() {
                     </Col>
                 </Row>
 
-                <Col className="card-size">
+                <Col className="filter-container-n2 d-flex card-size">
                     {Array.isArray(novedades) && Boolean(novedades.length) ? (
                         novedades.slice().map((elem, index) => {
                             return (
-                                <Card>
+                                <Card className="tarjetita">
                                     <div className="card-img-top">
                                         <Card.Img className="w-100" variant="top" src={elem.imagen} />
                                     </div>
@@ -114,6 +115,7 @@ function Home() {
                         </div>
                     )}
                 </Col>
+                <p></p>
                 <Row>
                     <Col className="d-flex justify-content-start">
                         <h1
@@ -125,11 +127,11 @@ function Home() {
                     </Col>
                 </Row>
 
-                <Col className="card-size">
+                <Col className="filter-container-n2 d-flex card-size">
                     {Array.isArray(populares) && Boolean(populares.length) ? (
                         populares.slice().map((elem, index) => {
                             return (
-                                <Card>
+                                <Card className="tarjetita">
                                     <div className="card-img-top">
                                         <Card.Img className="w-100" variant="top" src={elem.imagen} />
                                     </div>
@@ -167,7 +169,7 @@ function Home() {
                         </div>
                     )}
                 </Col>
-
+                <p></p>
             </Container>
         </div>
     );

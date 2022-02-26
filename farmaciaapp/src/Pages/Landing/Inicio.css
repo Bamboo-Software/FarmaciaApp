@@ -2,9 +2,15 @@
     max-height: 530px !important;
 }
   
+.tarjetita{
+    padding: 5px;
+
+}
+
 @media only screen and (min-width: 600px) {
     .card-size {
-        max-width: 23.33%;
+        max-width: 93.33%;
+        padding: 32px;
     }
     .card-img-top {
         height: 15vw;
