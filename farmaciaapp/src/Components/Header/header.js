@@ -17,13 +17,13 @@ function Header() {
     return (
         <Container fluid>
             <Row>
+                <Col className="d-flex justify-content-start">
+                </Col>
                 <Col className="d-flex justify-content-center">
                     <Form.Control type="email" placeholder="Busqueda en catalogo"
                         style={{
                             marginTop: "0.5rem",
-                            marginLeft: "30rem",
-                            display: "inline-block",
-                            width: "480px",
+                            width: "480px"
                         }}
                     />
                     <Row>
@@ -38,9 +38,20 @@ function Header() {
                     </Row>
                 </Col>
                 <Col className="d-flex justify-content-end">
-                    <NavLink>Contactar</NavLink>
+                    <NavLink
+                        style={{
+                            marginTop: "0.4rem",
+                            color: "#000000"
+                        }}
+                    >Contactar</NavLink>
 
-                    <NavLink onClick={() => handleClick("/Login")}>Acceder</NavLink>
+                    <NavLink
+                        style={{
+                            marginTop: "0.4rem",
+                            color: "#000000"
+                        }}
+                        onClick={() => handleClick("/Login")}
+                    >Acceder</NavLink>
                 </Col>
                 <Col className="d-flex justify-content-end">
                     <NavLink>Contactar</NavLink>
@@ -48,7 +59,6 @@ function Header() {
                     <NavLink onClick={() => handleClick("/Profile")}>Usuario</NavLink>
                 </Col>
             </Row>
-
         </Container>
     );
 }
