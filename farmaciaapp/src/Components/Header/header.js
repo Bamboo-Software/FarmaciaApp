@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { NavLink } from 'react-bootstrap';
 import searchIcon from "../../assets/search_black_24dp.svg";
 import { useNavigate } from "react-router-dom";
+import logito from "../../assets/logoProvisional.jpg";
 
 function Header() {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ function Header() {
         <Container fluid>
             <Row>
                 <Col className="d-flex justify-content-start">
+                    <NavLink onClick={() => handleClick("/")}><img className="Logo" src={logito}/></NavLink>
                 </Col>
                 <Col className="d-flex justify-content-center">
                     <Form.Control type="email" placeholder="Busqueda en catalogo"
