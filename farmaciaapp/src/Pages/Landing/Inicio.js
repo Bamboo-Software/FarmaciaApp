@@ -73,47 +73,49 @@ function Home() {
                     </Col>
                 </Row>
 
-                <Col className="filter-container-n2 d-flex card-size">
-                    {Array.isArray(novedades) && Boolean(novedades.length) ? (
-                        novedades.slice().map((elem, index) => {
-                            return (
-                                <Card className="tarjetita">
-                                    <div className="card-img-top">
-                                        <Card.Img className="w-100" variant="top" src={elem.imagen} />
-                                    </div>
-                                    <Card.Body>
-                                        <div className="d-flex justify-content-center">
-                                            <a>{elem.nombre}</a>
+                <Col className="d-flex justify-content-center">
+                    <Row xs={4} md={4} className="g-4">
+                        {Array.isArray(novedades) && Boolean(novedades.length) ? (
+                            novedades.slice().map((elem, index) => {
+                                return (
+                                    <Card className="tarjetita">
+                                        <div className="card-img-top">
+                                            <Card.Img className="w-100" variant="top" src={elem.imagen} />
+                                        </div>
+                                        <Card.Body>
+                                            <div className="d-flex justify-content-center">
+                                                <a style={{fontWeight:"bold"}}>{elem.nombre}</a>
 
-                                        </div>
-                                        <div className="d-flex justify-content-center">
-                                            <p>
-                                                {elem.precio} lps.
-                                            </p>
-                                        </div>
-                                        <div className="d-flex justify-content-center">
-                                            <Button
-                                                style={{
-                                                    backgroundColor: "#89E9A9",
-                                                    borderColor: "#89E9A9",
-                                                    color: "#000000"
-                                                }}
-                                            >
-                                                <img src={carrito} />
-                                                Añadir
-                                            </Button>
-                                        </div>
-                                    </Card.Body>
-                                </Card>
-                            );
-                        })
-                    ) : (
-                        <div className="d-flex justify-content-center">
-                            <h1 className="text-center">
-                                Lo siento, aun no hay novedades :c
-                            </h1>
-                        </div>
-                    )}
+                                            </div>
+                                            <div className="d-flex justify-content-center">
+                                                <p>
+                                                    {elem.precio} lps.
+                                                </p>
+                                            </div>
+                                            <div className="d-flex justify-content-center">
+                                                <Button
+                                                    style={{
+                                                        backgroundColor: "#89E9A9",
+                                                        borderColor: "#89E9A9",
+                                                        color: "#000000"
+                                                    }}
+                                                >
+                                                    <img src={carrito} />
+                                                    Añadir
+                                                </Button>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                );
+                            })
+                        ) : (
+                            <div className="d-flex justify-content-center">
+                                <h1 className="text-center">
+                                    Lo siento, aun no hay novedades :c
+                                </h1>
+                            </div>
+                        )}
+                    </Row>
                 </Col>
                 <p></p>
                 <Row>
@@ -127,47 +129,49 @@ function Home() {
                     </Col>
                 </Row>
 
-                <Col className="filter-container-n2 d-flex card-size">
-                    {Array.isArray(populares) && Boolean(populares.length) ? (
-                        populares.slice().map((elem, index) => {
-                            return (
-                                <Card className="tarjetita">
-                                    <div className="card-img-top">
-                                        <Card.Img className="w-100" variant="top" src={elem.imagen} />
-                                    </div>
-                                    <Card.Body>
-                                        <div className="d-flex justify-content-center">
-                                            <a>{elem.nombre}</a>
+                <Col className="d-flex justify-content-center">
+                    <Row xs={4} md={4} className="g-4">
+                        {Array.isArray(populares) && Boolean(populares.length) ? (
+                            populares.slice().map((elem, index) => {
+                                return (
+                                    <Card className="tarjetita">
+                                        <div className="card-img-top">
+                                            <Card.Img className="w-100" variant="top" src={elem.imagen} />
+                                        </div>
+                                        <Card.Body>
+                                            <div className="d-flex justify-content-center">
+                                                <a style={{fontWeight:"bold"}}>{elem.nombre}</a>
 
-                                        </div>
-                                        <div className="d-flex justify-content-center">
-                                            <p>
-                                                {elem.precio} lps.
-                                            </p>
-                                        </div>
-                                        <div className="d-flex justify-content-center">
-                                            <Button
-                                                style={{
-                                                    backgroundColor: "#89E9A9",
-                                                    borderColor: "#89E9A9",
-                                                    color: "#000000"
-                                                }}
-                                            >
-                                                <img src={carrito} />
-                                                Añadir
-                                            </Button>
-                                        </div>
-                                    </Card.Body>
-                                </Card>
-                            );
-                        })
-                    ) : (
-                        <div className="d-flex justify-content-center">
-                            <h1 className="text-center">
-                                Lo siento, aun no hay paquetes populares :c
-                            </h1>
-                        </div>
-                    )}
+                                            </div>
+                                            <div className="d-flex justify-content-center">
+                                                <p>
+                                                    {elem.precio} lps.
+                                                </p>
+                                            </div>
+                                            <div className="d-flex justify-content-center">
+                                                <Button
+                                                    style={{
+                                                        backgroundColor: "#89E9A9",
+                                                        borderColor: "#89E9A9",
+                                                        color: "#000000"
+                                                    }}
+                                                >
+                                                    <img src={carrito} />
+                                                    Añadir
+                                                </Button>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                );
+                            })
+                        ) : (
+                            <div className="d-flex justify-content-center">
+                                <h1 className="text-center">
+                                    Lo siento, aun no hay paquetes populares :c
+                                </h1>
+                            </div>
+                        )}
+                    </Row>
                 </Col>
                 <p></p>
             </Container>

@@ -27,7 +27,7 @@ function Carrito() {
                     <h1>Articulos </h1>
                 </div>
                 <Col className="d-flex justify-content-center">
-                    <Row xs={1} md={4} className="g-4">
+                    <Row xs={2} md={4} className="g-4">
                         {Array.isArray(lista) && Boolean(lista.length) ? (
                             lista.slice().map((elem, index) => {
                                 total+=elem.precio;
