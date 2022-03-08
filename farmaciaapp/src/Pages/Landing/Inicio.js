@@ -12,16 +12,16 @@ import carrito from "../../assets/compra.svg";
 function Home() {
     const [cont, setCont] = useState(0);
     const novedades = [
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: "20 lps" },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: "20 lps" },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: "20 lps" },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: "20 lps" }
+        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 }
     ];
     const populares = [
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: "20 lps" },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: "20 lps" },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: "20 lps" },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: "20 lps" }
+        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 }
     ];
     console.log(novedades);
     return (
@@ -88,7 +88,7 @@ function Home() {
                                         </div>
                                         <div className="d-flex justify-content-center">
                                             <p>
-                                                {elem.precio}
+                                                {elem.precio} lps.
                                             </p>
                                         </div>
                                         <div className="d-flex justify-content-center">
@@ -142,7 +142,7 @@ function Home() {
                                         </div>
                                         <div className="d-flex justify-content-center">
                                             <p>
-                                                {elem.precio}
+                                                {elem.precio} lps.
                                             </p>
                                         </div>
                                         <div className="d-flex justify-content-center">
