@@ -6,6 +6,8 @@ import Signup from "./Components/login/signup";
 import Home from "./Pages/Landing/Inicio";
 import Barra from "./Components/NavBar/NavBar";
 import Profile from "./Components/profile/Profile";
+import Carrito from "./Pages/CarroCompras/Carrito";
+
 function App() {
   return (
     <>
@@ -13,9 +15,10 @@ function App() {
       <Barra />
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route exact path="/Login" element={<Login/>} />
-        <Route exact path="/Signup" element={<Signup/>} />
-        <Route exact path="/Profile" element={<Profile/>} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<Signup />} />
+        <Route path="/Profile" element={<Profile />} />
+        <Route path="/CarroCompras" element={<Carrito />} />
       </Routes>
     </>
   );

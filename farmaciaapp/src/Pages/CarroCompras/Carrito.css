@@ -1,0 +1,15 @@
+.tarjeta{
+    padding: 5px;
+    
+}
+
+@media only screen and (min-width: 600px) {
+    .card-size {
+        max-width: 93.33%;
+        padding: 32px;
+    }
+    .card-img-top {
+        height: 15vw;
+        object-fit: cover;
+    }
+}
