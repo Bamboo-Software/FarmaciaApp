@@ -6,8 +6,11 @@ import { Col, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import './login.css';
+
+
 function Signup() {
     const navigate = useNavigate();
+
     function handleClick(path) {
         navigate(path);
     }
