@@ -1,15 +1,128 @@
 import Form from 'react-bootstrap/Form';
-import React, { Component } from 'react'
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Container, NavLink } from 'react-bootstrap';
 import { Col, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
+import Overlay from "react-bootstrap/Overlay";
+import Tooltip from "react-bootstrap/Tooltip";
+import { auth } from "../../Firebase/firebase.utils";
+import { contextoUser } from "../../contexto/contexto";
+import {
+    obtenerUsuario,
+    crearDocumentoUsuarios,
+} from "../../Firebase/usuarios";
 import './login.css';
+
 function Login() {
+    const user = useContext(contextoUser);
+    const [nombre, setNombre] = useState("");
+    const [direccion, setDireccion] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmpassword, setConfirmPassword] = useState("");
+    const [isError, setIsError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const target = useRef(null);
+    const passTarget = useRef(null);
+    const [showPass, setShowPass] = useState(false);
+    const [show, setShow] = useState(false);
+    console.log(nombre);
+    console.log(direccion);
+    console.log(email);
+    console.log(password);
+    console.log(confirmpassword);
+
     const navigate = useNavigate();
+
     function handleClick(path) {
         navigate(path);
     }
+
+    useEffect(() => {
+        authListener();
+    }, []);
+
+    const handleErrorMessagesSignup = (e) => {
+        const emailVerification = e.target.value;
+        setEmail(emailVerification);
+        auth.signInWithEmailAndPassword(email).
+            then(() => {
+                auth.signOut();
+            }
+            ).catch((err) => {
+                switch (err.code) {
+                    case "auth/invalid-email":
+                        setEmailError("Formato de correo inválido");
+                        setShow(true);
+                        auth.signOut();
+                        break;
+                    default:
+                        auth.signOut();
+                        setShow(false);
+                        break;
+                }
+            });
+        auth.signOut();
+    };
+
+    const confirmPass = (e) => {
+        const confPass = e.target.value;
+        setConfirmPassword(confPass);
+        if (password !== confPass) {
+            setIsError("Las contraseñas no coinciden");
+        } else {
+            setIsError("");
+        }
+    };
+
+    const handleSignup = async () => {
+        clearErrors();
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                console.log(auth);
+                crearDocumentoUsuarios({});
+            })
+            .catch((err) => {
+                switch (err.code) {
+                    case "auth/email-already-in-use":
+                        setEmailError("Correo ya en uso");
+                        setShow(!show);
+
+                        break;
+                    case "auth/invalid-email":
+                        setEmailError("Formato del correo invalido");
+                        setShow(!show);
+                        break;
+                    case "auth/weak-password":
+                        setPasswordError("Constraseña corta");
+                        setShowPass(!showPass);
+                        break;
+
+                    default:
+                        break;
+                }
+            });
+        //      window.location.replace("/Verificacion")
+    };
+
+    const clearErrors = () => {
+        setEmailError("");
+        setPasswordError("");
+    };
+
+    const clearInputs = () => {
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+    };
+
+    const authListener = async () => {
+        clearInputs();
+    };
+
     return (
         <div>
             <Container fluid>
@@ -19,20 +132,70 @@ function Login() {
                             <Form className='formulario'>
                                 <Form.Group className="mb-3" controlId="formBasicName">
                                     <Form.Label>Nombre Completo</Form.Label>
-                                    <Form.Control type="text" placeholder="Nombre completo" />
+                                    <Form.Control
+                                        value={nombre}
+                                        onChange={(e) => setNombre(e.target.value)}
+                                        type="text" placeholder="Nombre completo" />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formBasicDireccion">
                                     <Form.Label>Direccion</Form.Label>
-                                    <Form.Control type="text" placeholder="Direccion" />
+                                    <Form.Control
+                                        value={direccion}
+                                        onChange={(e) => setDireccion(e.target.value)}
+                                        type="text" placeholder="Direccion" />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email" placeholder="Enter email" />
+                                    <Form.Control
+                                        value={email}
+                                        onChange={(e) => handleErrorMessagesSignup(e)}
+                                        type="email" placeholder="Enter email" />
                                 </Form.Group>
-
+                                <Form.Group
+                                    className="mb-3"
+                                    controlId="formBasicEmail"
+                                    ref={target}
+                                    style={{
+                                        marginTop: "1rem",
+                                    }}
+                                >
+                                    {emailError ? (
+                                        <Overlay
+                                            target={target.current}
+                                            show={show}
+                                            placement="bottom"
+                                        >
+                                            {(props) => (
+                                                <Tooltip id="overlay-email" {...props}>
+                                                    {emailError}
+                                                </Tooltip>
+                                            )}
+                                        </Overlay>
+                                    ) : null}
+                                </Form.Group>
                                 <Form.Group className="mb-3" controlId="formBasicPassword">
                                     <Form.Label>Password</Form.Label>
-                                    <Form.Control type="password" placeholder="Password" />
+                                    <Form.Control
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        type="password" placeholder="Password" />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Form.Label>Confirm Password</Form.Label>
+                                    <Form.Control
+                                        value={confirmpassword}
+                                        //onChange={(e) => setConfirmPassword(e.target.value)}
+                                        onChange={(e) => confirmPass(e)}
+                                        type="password" placeholder="Password" />
+                                </Form.Group>
+                                <Form.Group
+                                    className="mb-3"
+                                    controlId="formBasicPassword"
+                                >
+                                    <Form.Text style={{ color: "red", marginLeft: 0 }}>
+                                        {isError}
+                                    </Form.Text>
+                                    <Form.Text className="text-muted"></Form.Text>
                                 </Form.Group>
                                 <Row>
                                     <Col className="d-flex justify-content-center">
@@ -46,10 +209,11 @@ function Login() {
                                 <Row>
                                     <Col className="d-flex justify-content-center">
                                         <Button variant="primary" type="submit"
-                                        style={{
-                                            backgroundColor: "#5AC4FF",
-                                            borderColor: "#5AC4FF"
-                                        }}
+                                            style={{
+                                                backgroundColor: "#5AC4FF",
+                                                borderColor: "#5AC4FF"
+                                            }}
+                                            onClick={handleSignup}
                                         >
                                             Registrarse
                                         </Button>

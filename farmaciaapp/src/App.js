@@ -7,6 +7,8 @@ import Home from "./Pages/Landing/Inicio";
 import Barra from "./Components/NavBar/NavBar";
 import Profile from "./Components/profile/Profile";
 import Carrito from "./Pages/CarroCompras/Carrito";
+import Advertencia from "./Components/login/Advertencia";
+import Redireccion from "./Components/login/Redireccion";
 
 function App() {
   return (
@@ -19,6 +21,10 @@ function App() {
         <Route path="/Signup" element={<Signup />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/CarroCompras" element={<Carrito />} />
+        <Route path="/Profile" element={<Profile />} />
+        <Route path="/CarroCompras" element={<Carrito />} />
+        <Route path="/Advertencia" element={<Advertencia />} />
+        <Route path="/Redireccion" element={<Redireccion />} />
       </Routes>
     </>
   );

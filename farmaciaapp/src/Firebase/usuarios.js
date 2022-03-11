@@ -91,18 +91,17 @@ export const getAllUsers = async () => {
       const userRef = firestore.doc(`usuarios/${user.uid}`);
       const snapShot = await userRef.get();
       if (!snapShot.exists) {
-        const { displayName, email, uid } = user;
-        const telefono = "";
+        const { displayName, direccion, email , uid } = user;
         const createdAt = new Date();
         const rol = "normal";
         try {
           await userRef.set({
             displayName,
+            direccion,
             email,
             createdAt,
             uid,
             rol,
-            telefono,
             ...additionalData,
           });
         } catch (error) {
