@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import './login.css';
 
 
-function Signup() {
+function Login() {
     const navigate = useNavigate();
 
     function handleClick(path) {
@@ -71,4 +71,4 @@ function Signup() {
     )
 }
 
-export default Signup;
+export default Login;

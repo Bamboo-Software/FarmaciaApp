@@ -58,7 +58,7 @@ function Header() {
                                     marginTop: "0.4rem",
                                     color: "#000000"
                                 }}
-                                onClick={() => handleClick("/Login")}
+                                onClick={() => handleClick("/CarroCompras")}
                             ><img src={carrito} /> Lista</NavLink>
                             
                             <NavLink
@@ -66,7 +66,7 @@ function Header() {
                                     marginTop: "0.4rem",
                                     color: "#000000"
                                 }}
-                                onClick={() => handleClick("/Login")}
+                                onClick={() => handleSignOut()}
                             >Cerrar Sesión</NavLink>
                         </>
                     ) : (

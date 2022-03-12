@@ -14,7 +14,7 @@ import {
 } from "../../Firebase/usuarios";
 import './login.css';
 
-function Login() {
+const Registro = () => {
     const user = useContext(contextoUser);
     const [nombre, setNombre] = useState("");
     const [direccion, setDireccion] = useState("");
@@ -79,32 +79,41 @@ function Login() {
 
     const handleSignup = async () => {
         clearErrors();
-        auth
-            .createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                console.log(auth);
-                crearDocumentoUsuarios({});
-            })
-            .catch((err) => {
-                switch (err.code) {
-                    case "auth/email-already-in-use":
-                        setEmailError("Correo ya en uso");
-                        setShow(!show);
+        try {
+            auth
+                .createUserWithEmailAndPassword(email, password)
+                .then(() => {
+                    //userCredential.user.sendEmailVerification();
+                    console.log('1');
+                    crearDocumentoUsuarios({});
+                    console.log('2');
+                    //                    auth.signOut();
+                    //                handleClick("/Redireccion");
+                })
+                .catch((err) => {
+                    switch (err.code) {
+                        case "auth/email-already-in-use":
+                            setEmailError("Correo ya en uso");
+                            setShow(!show);
 
-                        break;
-                    case "auth/invalid-email":
-                        setEmailError("Formato del correo invalido");
-                        setShow(!show);
-                        break;
-                    case "auth/weak-password":
-                        setPasswordError("Constraseña corta");
-                        setShowPass(!showPass);
-                        break;
+                            break;
+                        case "auth/invalid-email":
+                            setEmailError("Formato del correo invalido");
+                            setShow(!show);
+                            break;
+                        case "auth/weak-password":
+                            setPasswordError("Constraseña corta");
+                            setShowPass(!showPass);
+                            break;
 
-                    default:
-                        break;
-                }
-            });
+                        default:
+                            console.log(err.code);
+                            break;
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
         //      window.location.replace("/Verificacion")
     };
 
@@ -228,4 +237,4 @@ function Login() {
     )
 }
 
-export default Login;
+export default Registro;
