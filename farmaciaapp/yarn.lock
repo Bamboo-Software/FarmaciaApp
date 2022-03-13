@@ -1341,6 +1341,11 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@kommunicate/kommunicate-chatbot-plugin@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@kommunicate/kommunicate-chatbot-plugin/-/kommunicate-chatbot-plugin-0.0.5.tgz#c6e28695e369e077dbb8512ce7871ee2ddcb28c5"
+  integrity sha512-MrZPjKRibMl8Z81FzH7LrN+9evniOg7rRxDwg7J6tnqxEnGRvU1WD+mGKRlj9QT2sWS39hvcE4yA51+bwF+GOQ==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
