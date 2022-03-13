@@ -34,7 +34,7 @@ function Login() {
                                     <Col className="d-flex justify-content-center">
                                         <Form.Group className="mb-3" >
                                             <Form.Text className="text-muted">
-                                                <h8>¿Aun no tienes cuenta?</h8>
+                                                <a>¿Aun no tienes cuenta?</a>
                                             </Form.Text>
                                         </Form.Group>
                                     </Col>

@@ -10,7 +10,8 @@ import { auth } from "../../Firebase/firebase.utils";
 import { contextoUser } from "../../contexto/contexto";
 import {
     obtenerUsuario,
-    crearDocumentoUsuarios,
+    agregarUsuario,
+    crearDocumentoUsuarios
 } from "../../Firebase/usuarios";
 import './login.css';
 
@@ -64,7 +65,7 @@ const Registro = () => {
                         break;
                 }
             });
-        auth.signOut();
+        //  auth.signOut();
     };
 
     const confirmPass = (e) => {
@@ -79,41 +80,45 @@ const Registro = () => {
 
     const handleSignup = async () => {
         clearErrors();
-        try {
-            auth
-                .createUserWithEmailAndPassword(email, password)
-                .then(() => {
-                    //userCredential.user.sendEmailVerification();
-                    console.log('1');
-                    crearDocumentoUsuarios({});
-                    console.log('2');
-                    //                    auth.signOut();
-                    //                handleClick("/Redireccion");
-                })
-                .catch((err) => {
-                    switch (err.code) {
-                        case "auth/email-already-in-use":
-                            setEmailError("Correo ya en uso");
-                            setShow(!show);
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                //userCredential.user.sendEmailVerification();
+                console.log('1');
+                crearDocumentoUsuarios({});
+                /*let usuario = {
+                    UID: userCredential.user.uid,
+                    Nombre: nombre,
+                    Direccion: direccion
+                }
+                agregarUsuario(usuario);*/
+                console.log('2');
+                //auth.signOut();
+                //handleClick("/Redireccion");
+            })
+            .catch((err) => {
+                switch (err.code) {
+                    case "auth/email-already-in-use":
+                        setEmailError("Correo ya en uso");
+                        setShow(!show);
 
-                            break;
-                        case "auth/invalid-email":
-                            setEmailError("Formato del correo invalido");
-                            setShow(!show);
-                            break;
-                        case "auth/weak-password":
-                            setPasswordError("Constraseña corta");
-                            setShowPass(!showPass);
-                            break;
+                        break;
+                    case "auth/invalid-email":
+                        setEmailError("Formato del correo invalido");
+                        setShow(!show);
+                        break;
+                    case "auth/weak-password":
+                        setPasswordError("Constraseña corta");
+                        setShowPass(!showPass);
+                        break;
 
-                        default:
-                            console.log(err.code);
-                            break;
-                    }
-                });
-        } catch (error) {
-            console.log(error);
-        }
+                    default:
+                        console.log(err.code);
+                        console.log(err);
+                        break;
+                }
+            });
+
         //      window.location.replace("/Verificacion")
     };
 
@@ -217,7 +222,7 @@ const Registro = () => {
                                 </Row>
                                 <Row>
                                     <Col className="d-flex justify-content-center">
-                                        <Button variant="primary" type="submit"
+                                        <Button variant="primary"
                                             style={{
                                                 backgroundColor: "#5AC4FF",
                                                 borderColor: "#5AC4FF"

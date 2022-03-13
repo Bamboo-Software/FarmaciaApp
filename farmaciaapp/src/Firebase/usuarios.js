@@ -63,14 +63,23 @@ export const modificarUsuario = async usuario => {
     .update(usuario);
 };
 
+export const agregarUsuario = async usuario => {
+  try {
+    return await firestore.collection("usuarios").add(usuario);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const crearDocumentoUsuarios = async (additionalData) => {
   const user = auth.currentUser;
   if (user != null) {
     const userRef = firestore.doc(`usuarios/${user.uid}`);
     const snapShot = await userRef.get();
     if (!snapShot.exists) {
-      const { displayName, direccion, email, uid } = user;
+      const { displayName, email, uid } = user;
       const createdAt = new Date();
+      const direccion="";
       const rol = "normal";
       try {
         await userRef.set({

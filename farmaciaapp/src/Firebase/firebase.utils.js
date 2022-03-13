@@ -34,6 +34,7 @@ export const signInWithGoogle = async () =>
                     break;
 
                 default:
+                    console.log(err);
                     break;
             }
         });
