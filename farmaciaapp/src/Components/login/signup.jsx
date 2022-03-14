@@ -94,6 +94,7 @@ const Registro = () => {
                 }
                 agregarUsuario(usuario);
                 console.log('2');
+                handleClick("/");
                 //auth.signOut();
                 //handleClick("/Redireccion");
             })
