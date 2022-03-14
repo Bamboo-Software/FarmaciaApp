@@ -85,13 +85,14 @@ const Registro = () => {
             .then((userCredential) => {
                 //userCredential.user.sendEmailVerification();
                 console.log('1');
-                crearDocumentoUsuarios({});
-                /*let usuario = {
+                const createdAt = new Date();
+                let usuario = {
                     UID: userCredential.user.uid,
                     Nombre: nombre,
-                    Direccion: direccion
+                    Direccion: direccion,
+                    fechaCreacion: createdAt
                 }
-                agregarUsuario(usuario);*/
+                agregarUsuario(usuario);
                 console.log('2');
                 //auth.signOut();
                 //handleClick("/Redireccion");

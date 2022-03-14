@@ -52,7 +52,23 @@ function Header() {
                 <Col className="d-flex justify-content-end">
                     {user.isAuth ? (
                         <>
-                            <div>{`Hola ${user.email}`}</div>
+                            <div style={{
+                                marginTop: "0.9rem"
+                            }}>
+                                <a
+                                    style={{
+                                        marginTop: "0.9rem"
+                                    }}
+                                >{`Hola usuario`}</a>
+                            </div>
+                            <a></a>
+                            <NavLink
+                                style={{
+                                    marginTop: "0.4rem",
+                                    color: "#000000"
+                                }}
+                            >Contactar</NavLink>
+
                             <NavLink
                                 style={{
                                     marginTop: "0.4rem",
@@ -60,7 +76,7 @@ function Header() {
                                 }}
                                 onClick={() => handleClick("/CarroCompras")}
                             ><img src={carrito} /> Lista</NavLink>
-                            
+
                             <NavLink
                                 style={{
                                     marginTop: "0.4rem",
