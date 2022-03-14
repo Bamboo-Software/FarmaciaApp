@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
-
+import Kommunicate from '@kommunicate/kommunicate-chatbot-plugin';
+Kommunicate.init("38ceb783203e68ee92ec14697813229cd" , {"popupWidget":true,"automaticChatOpenOnNavigation":true})
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
