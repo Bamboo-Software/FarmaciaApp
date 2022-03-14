@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import Contexto from "./contexto/contexto";
 
+import Kommunicate from '@kommunicate/kommunicate-chatbot-plugin';
+Kommunicate.init("38ceb783203e68ee92ec14697813229cd" , {"popupWidget":true,"automaticChatOpenOnNavigation":true})
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

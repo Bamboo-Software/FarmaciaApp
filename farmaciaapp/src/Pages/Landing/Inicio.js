@@ -8,7 +8,7 @@ import { Col, Row } from "react-bootstrap";
 import test from "../../assets/test1.jpg";
 import test2 from "../../assets/ImagenTest1.jpg";
 import carrito from "../../assets/compra.svg";
-
+import Chat from "../../Components/chatbot/Chat";
 function Home() {
     const [cont, setCont] = useState(0);
     const novedades = [
