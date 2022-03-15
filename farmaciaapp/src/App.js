@@ -8,8 +8,6 @@ import Profile from "./Components/profile/Profile";
 import Carrito from "./Pages/CarroCompras/Carrito";
 import Advertencia from "./Components/login/Advertencia";
 import Redireccion from "./Components/login/Redireccion";
-
-import Chat from "./Components/chatbot/Chat";
 function App() {
   return (
     <>

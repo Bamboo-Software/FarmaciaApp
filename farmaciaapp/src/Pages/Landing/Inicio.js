@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import "./Inicio.css";
 import Button from "react-bootstrap/Button";
 import Carousel from 'react-bootstrap/Carousel';
@@ -8,9 +8,40 @@ import { Col, Row } from "react-bootstrap";
 import test from "../../assets/test1.jpg";
 import test2 from "../../assets/ImagenTest1.jpg";
 import carrito from "../../assets/compra.svg";
-import Chat from "../../Components/chatbot/Chat";
-function Home() {
-    const [cont, setCont] = useState(0);
+import getProductos from "./getProductos";
+import {firestore} from "../../Firebase/firebase.utils";
+class Home extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            inventario: []
+        }
+    }
+    componentDidMount() {
+        setTimeout(() => {
+            var projectsArr = [];
+            firestore.collection('productos').get().then((snapshot) => {
+                snapshot.docs.forEach(doc => {
+                    let project = doc.data();
+                    projectsArr.push(project);
+                });
+                this.setState({
+                    inventario: projectsArr
+                });
+            });
+
+        }, 300)//fin del timer
+    }//fin de DidMount
+    /*const [productos, setProductos] = useState([]);
+    function actualizarEstadoProductos() {
+        getProductos().then((productos) => {
+          setProductos(productos);
+        });
+      }
+    
+      useEffect(() => {
+        actualizarEstadoProductos();
+      }, []);
     const novedades = [
         { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
         { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
@@ -24,6 +55,23 @@ function Home() {
         { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 }
     ];
     console.log(novedades);
+    console.log(productos)*/
+    render(){
+        const  data = this.state.inventario
+        console.log(data)
+        const novedades = [
+            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 }
+        ];
+        const populares = [
+            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
+            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 }
+        ];
+    if (!data) { return <div>Loading...</div> }
     return (
         <div>
             <Row>
@@ -75,8 +123,8 @@ function Home() {
 
                 <Col className="d-flex justify-content-center">
                     <Row xs={4} md={4} className="g-4">
-                        {Array.isArray(novedades) && Boolean(novedades.length) ? (
-                            novedades.slice().map((elem, index) => {
+                        {Array.isArray(data) && Boolean(data.length) ? (
+                            data.slice().map((elem, index) => {
                                 return (
                                     <Card className="tarjetita">
                                         <div className="card-img-top">
@@ -177,6 +225,7 @@ function Home() {
             </Container>
         </div>
     );
+                        }
 }
 
 export default Home;
