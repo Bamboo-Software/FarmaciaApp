@@ -8,6 +8,9 @@ import Profile from "./Components/profile/Profile";
 import Carrito from "./Pages/CarroCompras/Carrito";
 import Advertencia from "./Components/login/Advertencia";
 import Redireccion from "./Components/login/Redireccion";
+import Higiene from "./Pages/Landing/higiene";
+import Mascarillas from "./Pages/Landing/mascarillas";
+import Medicamentos from "./Pages/Landing/medicamentos";
 function App() {
   return (
     <>
@@ -16,6 +19,9 @@ function App() {
       <Barra />
       <Routes>
         <Route exact path="/" element={<Home />} />
+        <Route path="/Higiene" element={<Higiene />} />
+        <Route path="/Mascarillas" element={<Mascarillas />} />
+        <Route path="/Medicamentos" element={<Medicamentos />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/Profile" element={<Profile />} />
