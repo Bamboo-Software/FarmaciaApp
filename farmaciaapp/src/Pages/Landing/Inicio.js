@@ -9,69 +9,99 @@ import test from "../../assets/test1.jpg";
 import test2 from "../../assets/ImagenTest1.jpg";
 import carrito from "../../assets/compra.svg";
 import getProductos from "./getProductos";
-import {firestore} from "../../Firebase/firebase.utils";
-class Home extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            inventario: []
-        }
-    }
-    componentDidMount() {
-        setTimeout(() => {
-            var projectsArr = [];
-            firestore.collection('productos').get().then((snapshot) => {
-                snapshot.docs.forEach(doc => {
-                    let project = doc.data();
-                    projectsArr.push(project);
-                });
-                this.setState({
-                    inventario: projectsArr
-                });
-            });
+import imgSiguiente from "../../assets/next.svg";
+import imgAnterior from "../../assets/before.svg";
+import { ButtonGroup } from "react-bootstrap";
+import { obtenerHigiene, obtenerMascarilla, obtenerProductos } from "../../Firebase/productos";
+import { firestore } from "../../Firebase/firebase.utils";
 
-        }, 300)//fin del timer
-    }//fin de DidMount
-    /*const [productos, setProductos] = useState([]);
-    function actualizarEstadoProductos() {
-        getProductos().then((productos) => {
-          setProductos(productos);
-        });
-      }
-    
-      useEffect(() => {
-        actualizarEstadoProductos();
-      }, []);
-    const novedades = [
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 }
-    ];
+function Home() {
     const populares = [
         { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-        { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 }
+        { imagen: test2, nombre: "Pastilla para la gripe2", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe3", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe4", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe5", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe6", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe7", precio: 20 },
+        { imagen: test2, nombre: "Pastilla para la gripe8", precio: 20 }
     ];
-    console.log(novedades);
-    console.log(productos)*/
-    render(){
-        const  data = this.state.inventario
-        console.log(data)
-        const novedades = [
-            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 }
-        ];
-        const populares = [
-            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
-            { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 }
-        ];
-    if (!data) { return <div>Loading...</div> }
+    const [productos, setProductos] = useState([]);
+    const [cont, setCont] = useState(0);
+    const [numeroPaginas, setNumeroPaginas] = useState(0);
+
+    const [cont2, setCont2] = useState(0);
+    const [numeroPaginas2, setNumeroPaginas2] = useState(0);
+
+    useEffect(() => {
+        obtenerProductos().then(lista => {
+            setProductos(lista);
+        });
+    }, []);
+
+    console.log(productos);
+
+    const siguiente = (e) => {
+        e.preventDefault();
+        if ((numeroPaginas * 3) < (Math.ceil(productos.length / 3))) {
+            setNumeroPaginas(numeroPaginas + 1);
+            setCont(cont + 3);
+        } else {
+            setCont(0);
+            setNumeroPaginas(0);
+        }
+    }
+
+    const anterior = (e) => {
+        e.preventDefault();
+        if (cont - 3 >= 0) {
+            setCont(cont - 3);
+            setNumeroPaginas(numeroPaginas - 1);
+        }
+    }
+
+    const siguienteAnteriorBttn = () => {
+        if (productos.length > 3) {
+            return (<div className="mt-4 mx-4">
+                <ButtonGroup>
+                    <Button onClick={anterior} className="btn btn-light bttn-anterior-despues-promo"><img className="imagen-bttn-promo-anterior" src={imgAnterior} /></Button>
+                    <Button onClick={siguiente} className="btn btn-light bttn-anterior-despues-promo"><img className="imagen-bttn-promo-siguiente" src={imgSiguiente} /></Button>
+                </ButtonGroup>
+            </div>);
+        }
+    }
+
+    const siguiente2 = (e) => {
+        e.preventDefault();
+        if ((numeroPaginas2 * 3) < (Math.ceil(populares.length / 3))) {
+            setNumeroPaginas2(numeroPaginas2 + 1);
+            setCont2(cont2 + 3);
+        } else {
+            setCont2(0);
+            setNumeroPaginas2(0);
+        }
+    }
+
+    const anterior2 = (e) => {
+        e.preventDefault();
+        if (cont2 - 3 >= 0) {
+            setCont2(cont2 - 3);
+            setNumeroPaginas2(numeroPaginas2 - 1);
+        }
+    }
+
+    const siguienteAnteriorBttn2 = () => {
+        if (populares.length > 3) {
+            return (<div className="mt-4 mx-4">
+                <ButtonGroup>
+                    <Button onClick={anterior2} className="btn btn-light bttn-anterior-despues-promo"><img className="imagen-bttn-promo-anterior" src={imgAnterior} /></Button>
+                    <Button onClick={siguiente2} className="btn btn-light bttn-anterior-despues-promo"><img className="imagen-bttn-promo-siguiente" src={imgSiguiente} /></Button>
+                </ButtonGroup>
+            </div>);
+        }
+    }
+
+    if (!productos) { return <div>Loading...</div> }
     return (
         <div>
             <Row>
@@ -120,11 +150,15 @@ class Home extends Component {
                         >Novedades</h1>
                     </Col>
                 </Row>
-
+                <Row>
+                    <div className="d-flex justify-content-start">
+                        {siguienteAnteriorBttn()}
+                    </div>
+                </Row>
                 <Col className="d-flex justify-content-center">
-                    <Row xs={4} md={4} className="g-4">
-                        {Array.isArray(data) && Boolean(data.length) ? (
-                            data.slice().map((elem, index) => {
+                    <Row xs={2} md={5} className="g-4">
+                        {Array.isArray(productos) && Boolean(productos.length) ? (
+                            productos.slice(cont, cont + 5).map((elem, index) => {
                                 return (
                                     <Card className="tarjetita">
                                         <div className="card-img-top">
@@ -132,7 +166,7 @@ class Home extends Component {
                                         </div>
                                         <Card.Body>
                                             <div className="d-flex justify-content-center">
-                                                <a style={{fontWeight:"bold"}}>{elem.nombre}</a>
+                                                <a style={{ fontWeight: "bold" }}>{elem.nombre}</a>
 
                                             </div>
                                             <div className="d-flex justify-content-center">
@@ -166,6 +200,11 @@ class Home extends Component {
                     </Row>
                 </Col>
                 <p></p>
+
+            </Container>
+
+            <Container fluid>
+                <p></p>
                 <Row>
                     <Col className="d-flex justify-content-start">
                         <h1
@@ -173,14 +212,18 @@ class Home extends Component {
                                 fontSize: "28px",
                                 fontFamily: "Roboto"
                             }}
-                        >Mas vendidos</h1>
+                        >Populares</h1>
                     </Col>
                 </Row>
-
+                <Row>
+                    <div className="d-flex justify-content-start">
+                        {siguienteAnteriorBttn2()}
+                    </div>
+                </Row>
                 <Col className="d-flex justify-content-center">
-                    <Row xs={4} md={4} className="g-4">
+                    <Row xs={2} md={5} className="g-4">
                         {Array.isArray(populares) && Boolean(populares.length) ? (
-                            populares.slice().map((elem, index) => {
+                            populares.slice(cont2, cont2 + 5).map((elem, index) => {
                                 return (
                                     <Card className="tarjetita">
                                         <div className="card-img-top">
@@ -188,7 +231,7 @@ class Home extends Component {
                                         </div>
                                         <Card.Body>
                                             <div className="d-flex justify-content-center">
-                                                <a style={{fontWeight:"bold"}}>{elem.nombre}</a>
+                                                <a style={{ fontWeight: "bold" }}>{elem.nombre}</a>
 
                                             </div>
                                             <div className="d-flex justify-content-center">
@@ -215,7 +258,7 @@ class Home extends Component {
                         ) : (
                             <div className="d-flex justify-content-center">
                                 <h1 className="text-center">
-                                    Lo siento, aun no hay paquetes populares :c
+                                    Lo siento, aun no hay novedades :c
                                 </h1>
                             </div>
                         )}
@@ -225,7 +268,6 @@ class Home extends Component {
             </Container>
         </div>
     );
-                        }
 }
 
 export default Home;

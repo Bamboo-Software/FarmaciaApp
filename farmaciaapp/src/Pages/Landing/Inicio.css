@@ -4,9 +4,55 @@
   
 .tarjetita{
     padding: 5px;
-
+    max-width: 600px;
+}
+.filter-container-n2 {
+    margin-left: 7%;
+    margin-right: 7%;
 }
 
+.bttn-promociones{
+    background-color: #99C24C;
+    border: 1px solid #99C24C;
+    color: #192659;
+    font-weight: bold;
+}
+
+.bttn-promociones:focus{
+    background-color: #99C24C;
+    border: 1px solid #99C24C;
+    color: #192659;
+    outline: none;
+    box-shadow: none;
+}
+
+.bttn-promociones2{
+    background-color: #ffffff;
+    border: 1px solid #99C24C;
+    color: #99C24C;
+    font-weight: bold;
+}
+
+.bttn-anterior-despues-promo,.bttn-anterior-despues-promo:focus{
+    border: 1px solid rgb(206, 206, 206);
+}
+
+@media only screen and (min-width: 600px) {
+    .card-tamano {
+        max-width: 33.33%;
+    }
+    .card-img-top {
+        height: 15vw;
+        object-fit: cover;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .card-img-top {
+        height: 40vw;
+        object-fit: cover;
+    }
+}
 @media only screen and (min-width: 600px) {
     .card-size {
         max-width: 93.33%;
