@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./header.css";
 
 import { auth } from "../../Firebase/firebase.utils";
@@ -12,10 +12,21 @@ import { useNavigate } from "react-router-dom";
 import logito from "../../assets/logoProvisional.jpg";
 import { contextoUser } from "../../contexto/contexto";
 import carrito from "../../assets/compra.svg";
+import Home from "../../Pages/Landing/Inicio";
+
+
 
 function Header() {
+    const [busqueda, setBusqueda] = useState("");
+    console.log(busqueda);
     const navigate = useNavigate();
     const user = useContext(contextoUser);
+
+    function sendText() {
+        //<Home data={busqueda} />
+        { Home(busqueda) }
+        console.log(busqueda)
+    }
 
     const handleSignOut = () => {
         auth.signOut();
@@ -25,6 +36,7 @@ function Header() {
     function handleClick(path) {
         navigate(path);
     }
+
     return (
         <Container fluid>
             <Row>
@@ -37,14 +49,20 @@ function Header() {
                             marginTop: "0.5rem",
                             width: "480px"
                         }}
+                        value={busqueda}
+                        onChange={(e) => setBusqueda(e.target.value)}
                     />
                     <Row>
                         <Col className="d-flex justify-content-center">
-                            <span className="search">
-                                <img
-                                    src={searchIcon}
-                                />
-                            </span>
+                            <NavLink onClick={sendText()}>
+                                <span className="search"
+                                >
+                                    <img
+
+                                        src={searchIcon}
+                                    />
+                                </span>
+                            </NavLink>
                         </Col>
 
                     </Row>

@@ -15,7 +15,13 @@ import { ButtonGroup } from "react-bootstrap";
 import { obtenerHigiene, obtenerMascarilla, obtenerProductos } from "../../Firebase/productos";
 import { firestore } from "../../Firebase/firebase.utils";
 
-function Home() {
+function Home(props) {
+    /*const busquedaDefault =
+    {
+        'nombre': ''
+    };
+
+    const [busquedaAvanzada, setBusquedaAvanzada] = React.useState(busquedaDefault);*/
     const populares = [
         { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
         { imagen: test2, nombre: "Pastilla para la gripe2", precio: 20 },
@@ -26,20 +32,33 @@ function Home() {
         { imagen: test2, nombre: "Pastilla para la gripe7", precio: 20 },
         { imagen: test2, nombre: "Pastilla para la gripe8", precio: 20 }
     ];
+    const prueba = props.data;
+    console.log("desde padre: ");
+    //console.log(props.data);
+    console.log(prueba);
     const [productos, setProductos] = useState([]);
     const [cont, setCont] = useState(0);
     const [numeroPaginas, setNumeroPaginas] = useState(0);
-
+    //  const [busqueda, setBusqueda] = react
     const [cont2, setCont2] = useState(0);
     const [numeroPaginas2, setNumeroPaginas2] = useState(0);
 
     useEffect(() => {
         obtenerProductos().then(lista => {
             setProductos(lista);
+            let arreglo = lista;
+            console.log(arreglo);
+            const Nombre = prueba;
+            if (!(Nombre === ""))
+                arreglo = arreglo.filter((elemento) => {
+                    return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
+                });
+            console.log(arreglo);
+            setProductos(arreglo);
         });
     }, []);
 
-    console.log(productos);
+//   console.log(productos);
 
     const siguiente = (e) => {
         e.preventDefault();
@@ -155,7 +174,7 @@ function Home() {
                         {siguienteAnteriorBttn()}
                     </div>
                 </Row>
-                <Col className="d-flex justify-content-center">
+                <div className="d-flex justify-content-center">
                     <Row xs={2} md={5} className="g-4">
                         {Array.isArray(productos) && Boolean(productos.length) ? (
                             productos.slice(cont, cont + 5).map((elem, index) => {
@@ -198,7 +217,7 @@ function Home() {
                             </div>
                         )}
                     </Row>
-                </Col>
+                </div>
                 <p></p>
 
             </Container>
@@ -258,7 +277,7 @@ function Home() {
                         ) : (
                             <div className="d-flex justify-content-center">
                                 <h1 className="text-center">
-                                    Lo siento, aun no hay novedades :c
+                                    Lo siento, aun no hay populares :c
                                 </h1>
                             </div>
                         )}

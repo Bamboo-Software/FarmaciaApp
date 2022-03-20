@@ -26,6 +26,11 @@
     box-shadow: none;
 }
 
+.row-cols-md-5>* {
+    flex: 0 0 auto;
+    width: auto;
+}
+
 .bttn-promociones2{
     background-color: #ffffff;
     border: 1px solid #99C24C;
