@@ -12,20 +12,18 @@ import { useNavigate } from "react-router-dom";
 import logito from "../../assets/logoProvisional.jpg";
 import { contextoUser } from "../../contexto/contexto";
 import carrito from "../../assets/compra.svg";
-import Home from "../../Pages/Landing/Inicio";
-
-
+import Home  from "../../Pages/Landing/Inicio";
 
 function Header() {
     const [busqueda, setBusqueda] = useState("");
+    const [data, setData] = useState("");
     console.log(busqueda);
     const navigate = useNavigate();
     const user = useContext(contextoUser);
 
-    function sendText() {
-        //<Home data={busqueda} />
-        { Home(busqueda) }
-        console.log(busqueda)
+    const sendText = () => {
+        setData(busqueda);
+       // window.location.replace("/");
     }
 
     const handleSignOut = () => {
@@ -38,92 +36,96 @@ function Header() {
     }
 
     return (
-        <Container fluid>
-            <Row>
-                <Col className="d-flex justify-content-start">
-                    <NavLink onClick={() => handleClick("/")}><img className="Logo" src={logito} /></NavLink>
-                </Col>
-                <Col className="d-flex justify-content-center">
-                    <Form.Control type="email" placeholder="Busqueda en catalogo"
-                        style={{
-                            marginTop: "0.5rem",
-                            width: "480px"
-                        }}
-                        value={busqueda}
-                        onChange={(e) => setBusqueda(e.target.value)}
-                    />
-                    <Row>
-                        <Col className="d-flex justify-content-center">
-                            <NavLink onClick={sendText()}>
+        <>
+        
+            <Container fluid>
+                <Row>
+                    <Col className="d-flex justify-content-start">
+                        <NavLink onClick={() => handleClick("/")}><img className="Logo" src={logito} /></NavLink>
+                    </Col>
+                    <Col className="d-flex justify-content-center">
+                        <Form.Control type="email" placeholder="Busqueda en catalogo"
+                            style={{
+                                marginTop: "0.5rem",
+                                width: "480px"
+                            }}
+                            value={busqueda}
+                            onChange={(e) => setBusqueda(e.target.value)}
+                        />
+                        <Row>
+                            <Col className="d-flex justify-content-center">
+
                                 <span className="search"
+                                    onClick={() => sendText()}
                                 >
                                     <img
 
                                         src={searchIcon}
                                     />
                                 </span>
-                            </NavLink>
-                        </Col>
 
-                    </Row>
-                </Col>
-                <Col className="d-flex justify-content-end">
-                    {user.isAuth ? (
-                        <>
-                            <div style={{
-                                marginTop: "0.9rem"
-                            }}>
-                                <a
+                            </Col>
+
+                        </Row>
+                    </Col>
+                    <Col className="d-flex justify-content-end">
+                        {user.isAuth ? (
+                            <>
+                                <div style={{
+                                    marginTop: "0.9rem"
+                                }}>
+                                    <a
+                                        style={{
+                                            marginTop: "0.9rem"
+                                        }}
+                                    >{`Hola usuario`}</a>
+                                </div>
+                                <a></a>
+                                <NavLink
                                     style={{
-                                        marginTop: "0.9rem"
+                                        marginTop: "0.4rem",
+                                        color: "#000000"
                                     }}
-                                >{`Hola usuario`}</a>
-                            </div>
-                            <a></a>
-                            <NavLink
-                                style={{
-                                    marginTop: "0.4rem",
-                                    color: "#000000"
-                                }}
-                            >Contactar</NavLink>
+                                >Contactar</NavLink>
 
-                            <NavLink
-                                style={{
-                                    marginTop: "0.4rem",
-                                    color: "#000000"
-                                }}
-                                onClick={() => handleClick("/CarroCompras")}
-                            ><img src={carrito} /> Lista</NavLink>
+                                <NavLink
+                                    style={{
+                                        marginTop: "0.4rem",
+                                        color: "#000000"
+                                    }}
+                                    onClick={() => handleClick("/CarroCompras")}
+                                ><img src={carrito} /> Lista</NavLink>
 
-                            <NavLink
-                                style={{
-                                    marginTop: "0.4rem",
-                                    color: "#000000"
-                                }}
-                                onClick={() => handleSignOut()}
-                            >Cerrar Sesión</NavLink>
-                        </>
-                    ) : (
-                        <>
-                            <NavLink
-                                style={{
-                                    marginTop: "0.4rem",
-                                    color: "#000000"
-                                }}
-                            >Contactar</NavLink>
+                                <NavLink
+                                    style={{
+                                        marginTop: "0.4rem",
+                                        color: "#000000"
+                                    }}
+                                    onClick={() => handleSignOut()}
+                                >Cerrar Sesión</NavLink>
+                            </>
+                        ) : (
+                            <>
+                                <NavLink
+                                    style={{
+                                        marginTop: "0.4rem",
+                                        color: "#000000"
+                                    }}
+                                >Contactar</NavLink>
 
-                            <NavLink
-                                style={{
-                                    marginTop: "0.4rem",
-                                    color: "#000000"
-                                }}
-                                onClick={() => handleClick("/Login")}
-                            >Acceder</NavLink>
-                        </>
-                    )}
-                </Col>
-            </Row>
-        </Container>
+                                <NavLink
+                                    style={{
+                                        marginTop: "0.4rem",
+                                        color: "#000000"
+                                    }}
+                                    onClick={() => handleClick("/Login")}
+                                >Acceder</NavLink>
+                            </>
+                        )}
+                    </Col>
+                </Row>
+            </Container>
+        </>
     );
 }
 

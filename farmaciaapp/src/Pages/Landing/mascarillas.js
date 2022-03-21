@@ -15,7 +15,7 @@ import { ButtonGroup } from "react-bootstrap";
 import { obtenerHigiene, obtenerMascarilla, obtenerProductos } from "../../Firebase/productos";
 import {firestore} from "../../Firebase/firebase.utils";
 
-function Mascarillas() {
+function Mascarillas({ sendText }) {
     const [productos, setProductos] = useState([]);
     const [cont, setCont] = useState(0);
     const [numeroPaginas, setNumeroPaginas] = useState(0);
@@ -23,11 +23,22 @@ function Mascarillas() {
     const [cont2, setCont2] = useState(0);
     const [numeroPaginas2, setNumeroPaginas2] = useState(0);
 
+    const prueba = { sendText };
+
     useEffect(() => {
         obtenerMascarilla().then(lista => {
             setProductos(lista);
+            let arreglo = lista;
+            console.log(arreglo);
+            const Nombre = prueba.sendText;
+            if (!(Nombre === ""))
+                arreglo = arreglo.filter((elemento) => {
+                    return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
+                });
+            console.log(arreglo);
+            setProductos(arreglo);
         });
-    }, []);
+    }, [sendText]);
 
     console.log(productos);
 

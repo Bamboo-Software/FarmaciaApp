@@ -15,7 +15,7 @@ import { ButtonGroup } from "react-bootstrap";
 import { obtenerHigiene, obtenerMascarilla, obtenerProductos } from "../../Firebase/productos";
 import { firestore } from "../../Firebase/firebase.utils";
 
-function Home(props) {
+function Home({ sendText }) {
     /*const busquedaDefault =
     {
         'nombre': ''
@@ -32,11 +32,15 @@ function Home(props) {
         { imagen: test2, nombre: "Pastilla para la gripe7", precio: 20 },
         { imagen: test2, nombre: "Pastilla para la gripe8", precio: 20 }
     ];
-    const prueba = props.data;
+    const prueba = { sendText };
+    //const [prueba, setPrueba] = useState({ sendText });
+    // const prueba = "Sukrol";
     console.log("desde padre: ");
     //console.log(props.data);
-    console.log(prueba);
+    console.log(prueba.sendText);
     const [productos, setProductos] = useState([]);
+    const [higiene, setHigiene] = useState([]);
+    const [mascarillas, setMascarillas] = useState([]);
     const [cont, setCont] = useState(0);
     const [numeroPaginas, setNumeroPaginas] = useState(0);
     //  const [busqueda, setBusqueda] = react
@@ -48,7 +52,7 @@ function Home(props) {
             setProductos(lista);
             let arreglo = lista;
             console.log(arreglo);
-            const Nombre = prueba;
+            const Nombre = prueba.sendText;
             if (!(Nombre === ""))
                 arreglo = arreglo.filter((elemento) => {
                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
@@ -56,9 +60,33 @@ function Home(props) {
             console.log(arreglo);
             setProductos(arreglo);
         });
-    }, []);
+        /* obtenerHigiene().then(lista => {
+             setProductos(lista);
+             let arreglo = lista;
+             console.log(arreglo);
+             const Nombre = prueba.sendText;
+             if (!(Nombre === ""))
+                 arreglo = arreglo.filter((elemento) => {
+                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
+                 });
+             console.log(arreglo);
+             setProductos(arreglo);
+         });
+         obtenerProductos().then(lista => {
+             setProductos(lista);
+             let arreglo = lista;
+             console.log(arreglo);
+             const Nombre = prueba.sendText;
+             if (!(Nombre === ""))
+                 arreglo = arreglo.filter((elemento) => {
+                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
+                 });
+             console.log(arreglo);
+             setProductos(arreglo);
+         });*/
+    }, [sendText]);
 
-//   console.log(productos);
+    //   console.log(productos);
 
     const siguiente = (e) => {
         e.preventDefault();
