@@ -8,7 +8,6 @@ import { Col, Row } from "react-bootstrap";
 import test from "../../assets/test1.jpg";
 import test2 from "../../assets/ImagenTest1.jpg";
 import carrito from "../../assets/compra.svg";
-import getProductos from "./getProductos";
 import imgSiguiente from "../../assets/next.svg";
 import imgAnterior from "../../assets/before.svg";
 import { ButtonGroup } from "react-bootstrap";
@@ -33,12 +32,15 @@ function Home({ sendText }) {
         { imagen: test2, nombre: "Pastilla para la gripe8", precio: 20 }
     ];
     const prueba = { sendText };
+    let MostPopular = [];
     //const [prueba, setPrueba] = useState({ sendText });
     // const prueba = "Sukrol";
     console.log("desde padre: ");
     //console.log(props.data);
     console.log(prueba.sendText);
+    
     const [productos, setProductos] = useState([]);
+    const [populares2, setPopulares] = useState([]);
     const [higiene, setHigiene] = useState([]);
     const [mascarillas, setMascarillas] = useState([]);
     const [cont, setCont] = useState(0);
@@ -57,11 +59,12 @@ function Home({ sendText }) {
                 arreglo = arreglo.filter((elemento) => {
                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                 });
-            console.log(arreglo);
+            console.log(" producto ",arreglo);
             setProductos(arreglo);
+        
         });
-        /* obtenerHigiene().then(lista => {
-             setProductos(lista);
+        obtenerHigiene().then(lista => {
+             setHigiene(lista);
              let arreglo = lista;
              console.log(arreglo);
              const Nombre = prueba.sendText;
@@ -69,25 +72,29 @@ function Home({ sendText }) {
                  arreglo = arreglo.filter((elemento) => {
                      return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                  });
-             console.log(arreglo);
-             setProductos(arreglo);
+             console.log("Higiene ",arreglo);
+             setHigiene(arreglo);
          });
-         obtenerProductos().then(lista => {
-             setProductos(lista);
+         obtenerMascarilla().then(lista => {
+             setMascarillas(lista);
              let arreglo = lista;
+             
              console.log(arreglo);
              const Nombre = prueba.sendText;
              if (!(Nombre === ""))
                  arreglo = arreglo.filter((elemento) => {
                      return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                  });
-             console.log(arreglo);
-             setProductos(arreglo);
-         });*/
+             console.log("Mascarilla ",arreglo);
+             
+             setMascarillas(arreglo);
+         });
+      
+        
+        
     }, [sendText]);
 
     //   console.log(productos);
-
     const siguiente = (e) => {
         e.preventDefault();
         if ((numeroPaginas * 3) < (Math.ceil(productos.length / 3))) {
@@ -147,8 +154,22 @@ function Home({ sendText }) {
             </div>);
         }
     }
-
-    if (!productos) { return <div>Loading...</div> }
+    
+    if (!productos) { return <div>Loading...</div> }else{
+        productos.forEach((elem)=>{
+            if(elem.unidades_vendidas>10)
+                MostPopular.push(elem)
+        })
+        mascarillas.forEach((elem)=>{
+            if(elem.unidades_vendidas>10)
+                MostPopular.push(elem)
+        })
+        higiene.forEach((elem)=>{
+            if(elem.unidades_vendidas>10)
+                MostPopular.push(elem)
+        })
+       
+        
     return (
         <div>
             <Row>
@@ -269,8 +290,8 @@ function Home({ sendText }) {
                 </Row>
                 <Col className="d-flex justify-content-center">
                     <Row xs={2} md={5} className="g-4">
-                        {Array.isArray(populares) && Boolean(populares.length) ? (
-                            populares.slice(cont2, cont2 + 5).map((elem, index) => {
+                        {Array.isArray(MostPopular) && Boolean(MostPopular.length) ? (
+                            MostPopular.slice(cont2, cont2 + 5).map((elem, index) => {
                                 return (
                                     <Card className="tarjetita">
                                         <div className="card-img-top">
@@ -314,7 +335,7 @@ function Home({ sendText }) {
                 <p></p>
             </Container>
         </div>
-    );
+    );}
 }
 
 export default Home;
