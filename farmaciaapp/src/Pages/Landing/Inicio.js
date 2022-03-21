@@ -33,6 +33,7 @@ function Home({ sendText }) {
         { imagen: test2, nombre: "Pastilla para la gripe8", precio: 20 }
     ];
     const prueba = { sendText };
+    const MostPopular = [];
     //const [prueba, setPrueba] = useState({ sendText });
     // const prueba = "Sukrol";
     console.log("desde padre: ");
@@ -60,8 +61,8 @@ function Home({ sendText }) {
             console.log(arreglo);
             setProductos(arreglo);
         });
-        /* obtenerHigiene().then(lista => {
-             setProductos(lista);
+        obtenerHigiene().then(lista => {
+             setHigiene(lista);
              let arreglo = lista;
              console.log(arreglo);
              const Nombre = prueba.sendText;
@@ -70,10 +71,10 @@ function Home({ sendText }) {
                      return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                  });
              console.log(arreglo);
-             setProductos(arreglo);
+             setHigiene(arreglo);
          });
-         obtenerProductos().then(lista => {
-             setProductos(lista);
+         obtenerMascarilla().then(lista => {
+             setMascarillas(lista);
              let arreglo = lista;
              console.log(arreglo);
              const Nombre = prueba.sendText;
@@ -82,8 +83,8 @@ function Home({ sendText }) {
                      return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                  });
              console.log(arreglo);
-             setProductos(arreglo);
-         });*/
+             setMascarillas(arreglo);
+         });
     }, [sendText]);
 
     //   console.log(productos);
@@ -148,7 +149,22 @@ function Home({ sendText }) {
         }
     }
 
-    if (!productos) { return <div>Loading...</div> }
+    if (!productos) { return <div>Loading...</div> }else{
+
+        mascarillas.forEach((elem)=>{
+            if (elem.unidades_vendidas>10)
+                MostPopular.push(elem)
+        });
+        productos.forEach((elem)=>{
+            if (elem.unidades_vendidas>10)
+                MostPopular.push(elem)
+        });
+       
+        higiene.forEach((elem)=>{
+            if (elem.unidades_vendidas>10)
+                MostPopular.push(elem)
+        })
+        console.log(MostPopular)
     return (
         <div>
             <Row>
@@ -269,8 +285,8 @@ function Home({ sendText }) {
                 </Row>
                 <Col className="d-flex justify-content-center">
                     <Row xs={2} md={5} className="g-4">
-                        {Array.isArray(populares) && Boolean(populares.length) ? (
-                            populares.slice(cont2, cont2 + 5).map((elem, index) => {
+                        {Array.isArray(MostPopular) && Boolean(MostPopular.length) ? (
+                            MostPopular.slice(cont2, cont2 + 5).map((elem, index) => {
                                 return (
                                     <Card className="tarjetita">
                                         <div className="card-img-top">
@@ -315,6 +331,7 @@ function Home({ sendText }) {
             </Container>
         </div>
     );
+                        }
 }
 
 export default Home;
