@@ -8,27 +8,51 @@ import { Col, Row } from "react-bootstrap";
 import test from "../../assets/test1.jpg";
 import test2 from "../../assets/ImagenTest1.jpg";
 import carrito from "../../assets/compra.svg";
-import getProductos from "./getProductos";
 import {firestore} from "../../Firebase/firebase.utils";
 class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-            inventario: []
+            inventario: [],
+            popular: []
         }
     }
     componentDidMount() {
         setTimeout(() => {
             var projectsArr = [];
+            var most_popular = [];
             firestore.collection('productos').get().then((snapshot) => {
                 snapshot.docs.forEach(doc => {
                     let project = doc.data();
                     projectsArr.push(project);
+                    most_popular.push(project)
                 });
                 this.setState({
                     inventario: projectsArr
                 });
             });
+            firestore.collection('higiene').get().then((snapshot) => {
+                snapshot.docs.forEach(doc => {
+                    let project = doc.data();
+                    most_popular.push(project)
+                });
+            });
+            firestore.collection('mascarillas').get().then((snapshot) => {
+                snapshot.docs.forEach(doc => {
+                    let project = doc.data();
+                    most_popular.push(project)
+                });
+
+                var filtrados =[];
+                most_popular.forEach((elem)=>{
+                    if(elem.unidades_vendidas>40)
+                        filtrados.push(elem)
+                })
+                this.setState({
+                    popular: filtrados
+                });
+            });
+            
 
         }, 300)//fin del timer
     }//fin de DidMount
@@ -58,7 +82,9 @@ class Home extends Component {
     console.log(productos)*/
     render(){
         const  data = this.state.inventario
+        const solicitados= this.state.popular
         console.log(data)
+        console.log(solicitados)
         const novedades = [
             { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
             { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
@@ -179,8 +205,8 @@ class Home extends Component {
 
                 <Col className="d-flex justify-content-center">
                     <Row xs={4} md={4} className="g-4">
-                        {Array.isArray(populares) && Boolean(populares.length) ? (
-                            populares.slice().map((elem, index) => {
+                        {Array.isArray(solicitados) && Boolean(solicitados.length) ? (
+                            solicitados.slice().map((elem, index) => {
                                 return (
                                     <Card className="tarjetita">
                                         <div className="card-img-top">
