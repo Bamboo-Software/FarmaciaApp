@@ -87,6 +87,7 @@ function App() {
                     style={{
                       marginTop: "0.9rem"
                     }}
+                    onClick={()=>handleClick("/Profile")}
                   >{`Hola usuario`}</a>
                 </div>
                 <a></a>
