@@ -117,6 +117,13 @@ function App() {
                     marginTop: "0.4rem",
                     color: "#000000"
                   }}
+                  onClick={() => handleClick("/Signup")}
+                >Registrate</NavLink>
+                <NavLink
+                  style={{
+                    marginTop: "0.4rem",
+                    color: "#000000"
+                  }}
                   onClick={() => handleClick("/Login")}
                 >Acceder</NavLink>
               </>

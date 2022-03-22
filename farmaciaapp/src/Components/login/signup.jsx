@@ -21,6 +21,7 @@ const Registro = () => {
     const [nombre, setNombre] = useState("");
     const [direccion, setDireccion] = useState("");
     const [email, setEmail] = useState("");
+    const [telefono, setTelefono] = useState("");
     const [password, setPassword] = useState("");
     const [confirmpassword, setConfirmPassword] = useState("");
     const [isError, setIsError] = useState("");
@@ -91,7 +92,10 @@ const Registro = () => {
                     UID: userCredential.user.uid,
                     Nombre: nombre,
                     Direccion: direccion,
-                    fechaCreacion: createdAt
+                    Telefono: telefono,
+                    fechaCreacion: createdAt,
+                    ListaCompras: {},
+                    ListaAnterior: {}
                 }
                 agregarUsuario(usuario);
                 console.log('2');
@@ -189,6 +193,14 @@ const Registro = () => {
                                             )}
                                         </Overlay>
                                     ) : null}
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Form.Label>Telefono</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={telefono}
+                                        onChange={(e) => setTelefono(e.target.value)}
+                                        placeholder="9999-9999" />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formBasicPassword">
                                     <Form.Label>Password</Form.Label>

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../Firebase/firebase.utils";
 import test2 from "../../assets/ImagenTest1.jpg";
 import { obtenerUsuario } from "../../Firebase/usuarios";
+import carrito from "../../assets/compra.svg";
 import './Profile.css';
 function Profile() {
     const favs = [
@@ -40,7 +41,7 @@ function Profile() {
                         createdAt: !!userAuth ? ref.fechaCreacion.toDate() : "",
                         uid: !!userAuth ? ref.UID : "",
                         Direccion: !!userAuth ? ref.Direccion : "",
-                        telefono: !!userAuth ? (ref.telefono ? ref.telefono : "") : ""
+                        telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
                     });
                 })
                 .catch(() => {
@@ -105,7 +106,7 @@ function Profile() {
             </Container>
             <Container fluid>
                 <Row>
-                    <h6>Medicamentos favoritos</h6>
+                    <h6>Productos comprados anteriormente</h6>
                     <Col className="d-flex justify-content-center">
                         <Row xs={1} md={2} className="g-4">
                             {Array.isArray(favs) && Boolean(favs.length) ? (
@@ -125,16 +126,12 @@ function Profile() {
                                                     </Card.Text>
                                                 </div>
                                                 <div className="d-flex justify-content-center">
-                                                    <Button variant="primary" type="submit"
+                                                    <Button 
                                                         style={{
-                                                            width: "170px"
-                                                        }}>Buscar</Button>
-                                                </div>
-                                                <div className="d-flex justify-content-center">
-                                                    <Button variant="danger" type="submit"
-                                                        style={{
-                                                            marginTop: "2px"
-                                                        }}>Eliminar de favoritos</Button>
+                                                            backgroundColor: "#89E9A9",
+                                                            borderColor: "#89E9A9",
+                                                            color: "#000000"
+                                                        }}><img src={carrito} />Añadir</Button>
                                                 </div>
                                             </Card.Body>
                                         </Card>
