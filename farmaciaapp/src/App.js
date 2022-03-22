@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 
 import { Routes, Route } from "react-router-dom";
 import Header from "./Components/Header/header";
+import Contacto from "./Components/Footer/Contacto";
 import Login from "./Components/login/login"
 import Signup from "./Components/login/signup";
 import Home from "./Pages/Landing/Inicio";
@@ -34,7 +35,7 @@ function App() {
 
   const sendText = () => {
     setData(busqueda);
- //   handleClick("/");
+    //   handleClick("/");
   }
 
   const handleSignOut = () => {
@@ -81,23 +82,17 @@ function App() {
             {user.isAuth ? (
               <>
                 <div style={{
-                 
+
                 }}>
                   <NavLink
                     style={{
                       marginTop: "0.4rem",
                       color: "#000000"
                     }}
-                    onClick={()=>handleClick("/Profile")}
+                    onClick={() => handleClick("/Profile")}
                   >{`Hola usuario`}</NavLink>
                 </div>
                 <a></a>
-                <NavLink
-                  style={{
-                    marginTop: "0.4rem",
-                    color: "#000000"
-                  }}
-                >Contactar</NavLink>
 
                 <NavLink
                   style={{
@@ -122,13 +117,6 @@ function App() {
                     marginTop: "0.4rem",
                     color: "#000000"
                   }}
-                >Contactar</NavLink>
-
-                <NavLink
-                  style={{
-                    marginTop: "0.4rem",
-                    color: "#000000"
-                  }}
                   onClick={() => handleClick("/Login")}
                 >Acceder</NavLink>
               </>
@@ -138,10 +126,10 @@ function App() {
       </Container>
       <Barra />
       <Routes>
-        <Route path="/" element={<Home sendText={data}/>} />
-        <Route path="/Higiene" element={<Higiene sendText={data}/>} />
-        <Route path="/Mascarillas" element={<Mascarillas sendText={data}/>} />
-        <Route path="/Medicamentos" element={<Medicamentos sendText={data}/>} />
+        <Route path="/" element={<Home sendText={data} />} />
+        <Route path="/Higiene" element={<Higiene sendText={data} />} />
+        <Route path="/Mascarillas" element={<Mascarillas sendText={data} />} />
+        <Route path="/Medicamentos" element={<Medicamentos sendText={data} />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/Profile" element={<Profile />} />
@@ -151,8 +139,15 @@ function App() {
         <Route path="/Advertencia" element={<Advertencia />} />
         <Route path="/Redireccion" element={<Redireccion />} />
       </Routes>
+      <Contacto />
     </>
   );
 }
+/*                <NavLink
+                  style={{
+                    marginTop: "0.4rem",
+                    color: "#000000"
+                  }}
+                >Contactar</NavLink>*/
 
 export default App;
