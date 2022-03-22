@@ -8,7 +8,6 @@ import { Col, Row } from "react-bootstrap";
 import test from "../../assets/test1.jpg";
 import test2 from "../../assets/ImagenTest1.jpg";
 import carrito from "../../assets/compra.svg";
-import getProductos from "./getProductos";
 import imgSiguiente from "../../assets/next.svg";
 import imgAnterior from "../../assets/before.svg";
 import { ButtonGroup } from "react-bootstrap";
@@ -39,7 +38,9 @@ function Home({ sendText }) {
     console.log("desde padre: ");
     //console.log(props.data);
     console.log(prueba.sendText);
+    
     const [productos, setProductos] = useState([]);
+    const [populares2, setPopulares] = useState([]);
     const [higiene, setHigiene] = useState([]);
     const [mascarillas, setMascarillas] = useState([]);
     const [cont, setCont] = useState(0);
@@ -58,8 +59,9 @@ function Home({ sendText }) {
                 arreglo = arreglo.filter((elemento) => {
                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                 });
-            console.log(arreglo);
+            console.log(" producto ",arreglo);
             setProductos(arreglo);
+        
         });
         obtenerHigiene().then(lista => {
              setHigiene(lista);
@@ -70,12 +72,13 @@ function Home({ sendText }) {
                  arreglo = arreglo.filter((elemento) => {
                      return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                  });
-             console.log(arreglo);
+             console.log("Higiene ",arreglo);
              setHigiene(arreglo);
          });
          obtenerMascarilla().then(lista => {
              setMascarillas(lista);
              let arreglo = lista;
+             
              console.log(arreglo);
              const Nombre = prueba.sendText;
              if (!(Nombre === ""))
@@ -88,7 +91,6 @@ function Home({ sendText }) {
     }, [sendText]);
 
     //   console.log(productos);
-
     const siguiente = (e) => {
         e.preventDefault();
         if ((numeroPaginas * 3) < (Math.ceil(productos.length / 3))) {
@@ -148,23 +150,22 @@ function Home({ sendText }) {
             </div>);
         }
     }
-
+    
     if (!productos) { return <div>Loading...</div> }else{
-
-        mascarillas.forEach((elem)=>{
-            if (elem.unidades_vendidas>10)
-                MostPopular.push(elem)
-        });
         productos.forEach((elem)=>{
-            if (elem.unidades_vendidas>10)
-                MostPopular.push(elem)
-        });
-       
-        higiene.forEach((elem)=>{
-            if (elem.unidades_vendidas>10)
+            if(elem.unidades_vendidas>10)
                 MostPopular.push(elem)
         })
-        console.log(MostPopular)
+        mascarillas.forEach((elem)=>{
+            if(elem.unidades_vendidas>10)
+                MostPopular.push(elem)
+        })
+        higiene.forEach((elem)=>{
+            if(elem.unidades_vendidas>10)
+                MostPopular.push(elem)
+        })
+       
+        
     return (
         <div>
             <Row>
@@ -330,8 +331,7 @@ function Home({ sendText }) {
                 <p></p>
             </Container>
         </div>
-    );
-                        }
+    );}
 }
 
 export default Home;
