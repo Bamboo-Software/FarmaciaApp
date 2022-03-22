@@ -81,14 +81,15 @@ function App() {
             {user.isAuth ? (
               <>
                 <div style={{
-                  marginTop: "0.9rem"
+                 
                 }}>
-                  <a
+                  <NavLink
                     style={{
-                      marginTop: "0.9rem"
+                      marginTop: "0.4rem",
+                      color: "#000000"
                     }}
                     onClick={()=>handleClick("/Profile")}
-                  >{`Hola usuario`}</a>
+                  >{`Hola usuario`}</NavLink>
                 </div>
                 <a></a>
                 <NavLink

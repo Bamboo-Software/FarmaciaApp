@@ -1,5 +1,5 @@
 import Form from 'react-bootstrap/Form';
-import React, { Component } from 'react'
+import React, { useState, useEffect, Component } from "react";
 import { NavLink } from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
 import Card from 'react-bootstrap/Card';
@@ -7,7 +7,9 @@ import { Container } from "react-bootstrap";
 import { Col, Row } from "react-bootstrap";
 import CardGroup from 'react-bootstrap/CardGroup';
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../Firebase/firebase.utils";
 import test2 from "../../assets/ImagenTest1.jpg";
+import { obtenerUsuario } from "../../Firebase/usuarios";
 import './Profile.css';
 function Profile() {
     const favs = [
@@ -16,7 +18,47 @@ function Profile() {
         { imagen: test2, nombre: "Pastilla para la gripe", Descripcion: "20 lps" },
         { imagen: test2, nombre: "Pastilla para la gripe", Descripcion: "20 lps" }
     ];
+    const [user, setUser] = useState({
+        Nombre: "",
+        correo: "",
+        createdAt: "",
+        uid: "",
+        Direccion: "",
+        telefono: ""
+    });
 
+    useEffect(() => {
+        auth.onAuthStateChanged(userAuth => {
+            obtenerUsuario(!!userAuth ? userAuth.uid : null)
+                .then(usuario => {
+                    console.log("Entre a usuario")
+                    const ref = usuario;
+                    console.log(ref);
+                    setUser({
+                        Nombre: !!userAuth ? ref.Nombre : "",
+                        correo: userAuth.email,
+                        createdAt: !!userAuth ? ref.fechaCreacion.toDate() : "",
+                        uid: !!userAuth ? ref.UID : "",
+                        Direccion: !!userAuth ? ref.Direccion : "",
+                        telefono: !!userAuth ? (ref.telefono ? ref.telefono : "") : ""
+                    });
+                })
+                .catch(() => {
+                    console.log("Quiebro aca")
+                    setUser({
+                        Nombre: "",
+                        correo: "",
+                        createdAt: "",
+                        uid: "",
+                        Direccion: "",
+                        telefono: ""
+                    });
+                });
+        });
+    }, []);
+
+    console.log("datos");
+    console.log(user);
     const navigate = useNavigate();
     function handleClick(path) {
         navigate(path);
@@ -30,25 +72,29 @@ function Profile() {
                             <Form className='perfil'>
                                 <Form.Group className="mb-3" controlId="nameProfile">
                                     <Form.Label>Nombre</Form.Label>
-                                    <Form.Control type="text" placeholder="Jose Gomez" disabled />
+                                    <Form.Control type="text" placeholder="Jose Gomez" value={user.Nombre} disabled />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="emailProfile">
                                     <Form.Label>Correo</Form.Label>
-                                    <Form.Control type="email" placeholder="JoseGomez@gmail.com" disabled />
+                                    <Form.Control type="email" placeholder="JoseGomez@gmail.com" value={user.correo} disabled />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="phoneProfile">
                                     <Form.Label>Telefono</Form.Label>
-                                    <Form.Control type="text" placeholder="0000-0000" disabled />
+                                    <Form.Control type="text" placeholder="0000-0000" value={user.telefono} disabled />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="addressProfile">
                                     <Form.Label>Direccion</Form.Label>
-                                    <Form.Control type="text" placeholder="Res. Las Uvas, Tegucigalpa, Francisco Morazan" disabled />
+                                    <Form.Control type="text" placeholder="Res. Las Uvas, Tegucigalpa, Francisco Morazan" value={user.Direccion} disabled />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="addressProfile">
+                                    <Form.Label>Fecha de creacion</Form.Label>
+                                    <Form.Control type="text" placeholder="Res. Las Uvas, Tegucigalpa, Francisco Morazan" value={user.createdAt} disabled />
                                 </Form.Group>
                                 <Button variant="primary" type="submit"
-                                style={{
-                                    backgroundColor: "#5AC4FF",
-                                    borderColor: "#5AC4FF"
-                                }}
+                                    style={{
+                                        backgroundColor: "#5AC4FF",
+                                        borderColor: "#5AC4FF"
+                                    }}
                                 >
                                     Editar perfil
                                 </Button>
@@ -80,15 +126,15 @@ function Profile() {
                                                 </div>
                                                 <div className="d-flex justify-content-center">
                                                     <Button variant="primary" type="submit"
-                                                    style={{
-                                                        width: "170px"
-                                                    }}>Buscar</Button>
+                                                        style={{
+                                                            width: "170px"
+                                                        }}>Buscar</Button>
                                                 </div>
                                                 <div className="d-flex justify-content-center">
                                                     <Button variant="danger" type="submit"
-                                                    style={{
-                                                        marginTop: "2px"
-                                                    }}>Eliminar de favoritos</Button>
+                                                        style={{
+                                                            marginTop: "2px"
+                                                        }}>Eliminar de favoritos</Button>
                                                 </div>
                                             </Card.Body>
                                         </Card>

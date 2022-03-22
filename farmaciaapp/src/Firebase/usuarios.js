@@ -1,3 +1,4 @@
+import { QuerySnapshot } from "firebase/firestore";
 import { firestore, auth } from "./firebase.utils";
 
 export const getAllUsers = async () => {
@@ -12,22 +13,65 @@ export const getAllUsers = async () => {
       return usuarios;
     });
 }
-export const obtenerUsuario = async id => {
+/*export const obtenerUsuario = async id => {
   const user = auth.currentUser;
   if (user != null) {
     const res = await firestore.collection("usuarios").doc(id).get();
     return res.data();
   }
+};*/
+
+export const obtenerUsuario = async id => {
+  try {
+    const user = auth.currentUser;
+
+    console.log("afuera");
+    if (user != null) {
+      let ref = "";
+      console.log("adentro");
+      //const res = await firestore.collection("usuarios").doc('6ZI5S44GCHmquWLzuiDr').get();
+      const res = await firestore.collection("usuarios").where('UID', '==', id).get().then((x) => {
+        x.forEach((doc) => {
+          console.log(doc.id, "=>", doc.data());
+          ref = doc.data();
+        })
+      });
+      return ref;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
 };
 
-export const getCurrentUser = async () => {
+export const obtenerUsuarioActual = async () => {
+  const user = auth.currentUser;
+  console.log(user.uid);
+  return await firestore
+    .collection("usuarios")
+    .where('UID', '==', user.uid.toString)
+    .get()
+    .then(collection => {
+      let users = [];
+      collection.forEach(doc => {
+        users.push({ ...doc.data(), id: doc.id });
+      });
+      console.log("firebase")
+      console.log(users);
+      return users;
+    });
+};
+
+/*export const getCurrentUser = async () => {
   const user = auth.currentUser;
   if (user != null) {
     const res = await firestore.collection("usuarios").doc(user.uid).get();
+    console.log("firebase")
+    console.log(res);
     return res.data();
   }
   return null;
-}
+}*/
 
 export const borrarUsuario = async () => {
   const user = auth.currentUser;
@@ -79,7 +123,7 @@ export const crearDocumentoUsuarios = async (additionalData) => {
     if (!snapShot.exists) {
       const { displayName, email, uid } = user;
       const createdAt = new Date();
-      const direccion="";
+      const direccion = "";
       const rol = "normal";
       try {
         await userRef.set({
