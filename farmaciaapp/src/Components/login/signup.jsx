@@ -94,8 +94,8 @@ const Registro = () => {
                     Direccion: direccion,
                     Telefono: telefono,
                     fechaCreacion: createdAt,
-                    ListaCompras: {},
-                    ListaAnterior: {}
+                    ListaCompras: [],
+                    ListaAnterior: []
                 }
                 agregarUsuario(usuario);
                 console.log('2');
