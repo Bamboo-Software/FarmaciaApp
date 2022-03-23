@@ -13,7 +13,9 @@ import imgSiguiente from "../../assets/next.svg";
 import imgAnterior from "../../assets/before.svg";
 import { ButtonGroup } from "react-bootstrap";
 import { obtenerHigiene, obtenerMascarilla, obtenerProductos } from "../../Firebase/productos";
-import {firestore} from "../../Firebase/firebase.utils";
+import { firestore } from "../../Firebase/firebase.utils";
+import { auth } from "../../Firebase/firebase.utils";
+import { obtenerUsuario, modificarUsuario } from "../../Firebase/usuarios";
 
 function Higiene({ sendText }) {
     const [productos, setProductos] = useState([]);
@@ -24,6 +26,73 @@ function Higiene({ sendText }) {
     const [numeroPaginas2, setNumeroPaginas2] = useState(0);
 
     const prueba = { sendText };
+
+    const [user, setUser] = useState({
+        Nombre: "",
+        //    correo: "",
+        fechaCreacion: "",
+        UID: "",
+        ListaCompras: [],
+        ListaAnterior: [],
+        Direccion: "",
+        Telefono: ""
+    });
+
+    useEffect(() => {
+        auth.onAuthStateChanged(userAuth => {
+            obtenerUsuario(!!userAuth ? userAuth.uid : null)
+                .then(usuario => {
+                    console.log("Entre a usuario")
+                    const ref = usuario;
+                    console.log(ref);
+                    setUser({
+                        Nombre: !!userAuth ? ref.Nombre : "",
+                        //                  correo: userAuth.email,
+                        fechaCreacion: !!userAuth ? ref.fechaCreacion.toDate() : "",
+                        UID: !!userAuth ? ref.UID : "",
+                        ListaCompras: !!userAuth ? ref.ListaCompras : [],
+                        ListaAnterior: !!userAuth ? ref.ListaAnterior : [],
+                        Direccion: !!userAuth ? ref.Direccion : "",
+                        Telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
+                    });
+                })
+                .catch(() => {
+                    console.log("Quiebro aca")
+                    setUser({
+                        Nombre: "",
+                        //correo: "",
+                        fechaCreacion: "",
+                        UID: "",
+                        ListaCompras: [],
+                        ListaAnterior: [],
+                        Direccion: "",
+                        Telefono: ""
+                    });
+                });
+        });
+    }, []);
+
+    function AddToCar(ID) {
+        try {
+            console.log("ID seleccionado");
+            console.log(ID);
+            console.log("afuera");
+
+            if (productos.find(element => element.id == ID) != null) {
+                console.log("adentro");
+                user.ListaCompras.push(productos.find(element => {
+                    return element.id == ID;
+                }));
+            }
+
+            modificarUsuario(user);
+
+            console.log("encontro: ");
+            console.log(user);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
         obtenerHigiene().then(lista => {
@@ -131,7 +200,7 @@ function Higiene({ sendText }) {
                         {Array.isArray(productos) && Boolean(productos.length) ? (
                             productos.slice(cont, cont + 5).map((elem, index) => {
                                 return (
-                                    <Card className="tarjetita">
+                                    <Card className="tarjetita" key={index}>
                                         <div className="card-img-top">
                                             <Card.Img className="w-100" variant="top" src={elem.imagen} />
                                         </div>
@@ -152,6 +221,7 @@ function Higiene({ sendText }) {
                                                         borderColor: "#89E9A9",
                                                         color: "#000000"
                                                     }}
+                                                    onClick={() => AddToCar(elem.id)}
                                                 >
                                                     <img src={carrito} />
                                                     Añadir

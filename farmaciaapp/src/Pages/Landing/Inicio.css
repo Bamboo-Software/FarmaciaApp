@@ -12,6 +12,18 @@
     margin-right: 7%;
 }
 
+.boton1{
+    background-color: #89E9A9;
+    border-color: #89E9A9;
+    color: #000000;
+}
+
+.boton2{
+    background-color:#dc3545;
+    border-color: #dc3545;
+    color: #ffffff;
+}
+
 .bttn-promociones{
     background-color: #99C24C;
     border: 1px solid #99C24C;

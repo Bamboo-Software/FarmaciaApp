@@ -8,6 +8,7 @@ import { Col, Row } from "react-bootstrap";
 import test from "../../assets/test1.jpg";
 import test2 from "../../assets/ImagenTest1.jpg";
 import carrito from "../../assets/compra.svg";
+import basurero from "../../assets/basurero.svg";
 import imgSiguiente from "../../assets/next.svg";
 import imgAnterior from "../../assets/before.svg";
 import { ButtonGroup } from "react-bootstrap";
@@ -33,6 +34,8 @@ function Home({ sendText }) {
         { imagen: test2, nombre: "Pastilla para la gripe7", precio: 20 },
         { imagen: test2, nombre: "Pastilla para la gripe8", precio: 20 }
     ];
+    const [texto, setTexto] = useState("Añadir");
+    const [estadoBoton, setEstadoBoton] = useState(true);
     const prueba = { sendText };
     let MostPopular = [];
     //const [prueba, setPrueba] = useState({ sendText });
@@ -42,7 +45,7 @@ function Home({ sendText }) {
     console.log(prueba.sendText);
 
     const [productos, setProductos] = useState([]);
-    const [populares2, setPopulares] = useState([]);
+    const [Active, setActive] = useState([]);
     const [higiene, setHigiene] = useState([]);
     const [mascarillas, setMascarillas] = useState([]);
     const [cont, setCont] = useState(0);
@@ -50,6 +53,17 @@ function Home({ sendText }) {
     //  const [busqueda, setBusqueda] = react
     const [cont2, setCont2] = useState(0);
     const [numeroPaginas2, setNumeroPaginas2] = useState(0);
+
+    const [user, setUser] = useState({
+        Nombre: "",
+        //    correo: "",
+        fechaCreacion: "",
+        UID: "",
+        ListaCompras: [],
+        ListaAnterior: [],
+        Direccion: "",
+        Telefono: ""
+    });
 
     useEffect(() => {
         obtenerProductos().then(lista => {
@@ -91,10 +105,41 @@ function Home({ sendText }) {
 
             setMascarillas(arreglo);
         });
-
-
-
     }, [sendText]);
+
+    useEffect(() => {
+        auth.onAuthStateChanged(userAuth => {
+            obtenerUsuario(!!userAuth ? userAuth.uid : null)
+                .then(usuario => {
+                    console.log("Entre a usuario")
+                    const ref = usuario;
+                    console.log(ref);
+                    setUser({
+                        Nombre: !!userAuth ? ref.Nombre : "",
+                        //                  correo: userAuth.email,
+                        fechaCreacion: !!userAuth ? ref.fechaCreacion.toDate() : "",
+                        UID: !!userAuth ? ref.UID : "",
+                        ListaCompras: !!userAuth ? ref.ListaCompras : [],
+                        ListaAnterior: !!userAuth ? ref.ListaAnterior : [],
+                        Direccion: !!userAuth ? ref.Direccion : "",
+                        Telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
+                    });
+                })
+                .catch(() => {
+                    console.log("Quiebro aca")
+                    setUser({
+                        Nombre: "",
+                        //correo: "",
+                        fechaCreacion: "",
+                        UID: "",
+                        ListaCompras: [],
+                        ListaAnterior: [],
+                        Direccion: "",
+                        Telefono: ""
+                    });
+                });
+        });
+    }, []);
 
     //   console.log(productos);
     const siguiente = (e) => {
@@ -156,52 +201,6 @@ function Home({ sendText }) {
             </div>);
         }
     }
-
-    const [user, setUser] = useState({
-        Nombre: "",
-        //    correo: "",
-        fechaCreacion: "",
-        UID: "",
-        ListaCompras: [],
-        ListaAnterior: [],
-        Direccion: "",
-        Telefono: ""
-    });
-
-    useEffect(() => {
-        auth.onAuthStateChanged(userAuth => {
-            obtenerUsuario(!!userAuth ? userAuth.uid : null)
-                .then(usuario => {
-                    console.log("Entre a usuario")
-                    const ref = usuario;
-                    console.log(ref);
-                    setUser({
-                        Nombre: !!userAuth ? ref.Nombre : "",
-                        //                  correo: userAuth.email,
-                        fechaCreacion: !!userAuth ? ref.fechaCreacion.toDate() : "",
-                        UID: !!userAuth ? ref.UID : "",
-                        ListaCompras: !!userAuth ? ref.ListaCompras : [],
-                        ListaAnterior: !!userAuth ? ref.ListaAnterior : [],
-                        Direccion: !!userAuth ? ref.Direccion : "",
-                        Telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
-                    });
-                })
-                .catch(() => {
-                    console.log("Quiebro aca")
-                    setUser({
-                        Nombre: "",
-                        //correo: "",
-                        fechaCreacion: "",
-                        UID: "",
-                        ListaCompras: [],
-                        ListaAnterior: [],
-                        Direccion: "",
-                        Telefono: ""
-                    });
-                });
-        });
-    }, []);
-
 
     function AddToCar(ID) {
         try {
@@ -328,14 +327,13 @@ function Home({ sendText }) {
                                                 <div className="d-flex justify-content-center">
                                                     <Button
                                                         style={{
-                                                            backgroundColor: "#89E9A9",
-                                                            borderColor: "#89E9A9",
-                                                            color: "#000000"
+                                                            backgroundColor: (estadoBoton == true) ? "#89E9A9" : "#dc3545",
+                                                            borderColor: (estadoBoton == true) ? "#89E9A9" : "#dc3545",
+                                                            color: (estadoBoton == true) ? "#000000" : "#ffffff",
                                                         }}
                                                         onClick={() => AddToCar(elem.id)}
                                                     >
-                                                        <img src={carrito} />
-                                                        Añadir
+                                                        <img src={(estadoBoton == true) ? carrito : basurero} /> {texto}
                                                     </Button>
                                                 </div>
                                             </Card.Body>
@@ -394,14 +392,14 @@ function Home({ sendText }) {
                                                 <div className="d-flex justify-content-center">
                                                     <Button
                                                         style={{
-                                                            backgroundColor: "#89E9A9",
-                                                            borderColor: "#89E9A9",
-                                                            color: "#000000"
+                                                            backgroundColor: (estadoBoton == true) ? "#89E9A9" : "#dc3545",
+                                                            borderColor: (estadoBoton == true) ? "#89E9A9" : "#dc3545",
+                                                            color: (estadoBoton == true) ? "#000000" : "#ffffff",
                                                         }}
+                                                        className=""
                                                         onClick={() => AddToCar(elem.id)}
                                                     >
-                                                        <img src={carrito} />
-                                                        Añadir
+                                                        <img src={(estadoBoton == true) ? carrito : basurero} /> {texto}
                                                     </Button>
                                                 </div>
                                             </Card.Body>
