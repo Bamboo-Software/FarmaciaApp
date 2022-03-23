@@ -13,13 +13,6 @@ export const getAllUsers = async () => {
       return usuarios;
     });
 }
-/*export const obtenerUsuario = async id => {
-  const user = auth.currentUser;
-  if (user != null) {
-    const res = await firestore.collection("usuarios").doc(id).get();
-    return res.data();
-  }
-};*/
 
 export const obtenerUsuario = async id => {
   try {
@@ -62,17 +55,6 @@ export const obtenerUsuarioActual = async () => {
     });
 };
 
-/*export const getCurrentUser = async () => {
-  const user = auth.currentUser;
-  if (user != null) {
-    const res = await firestore.collection("usuarios").doc(user.uid).get();
-    console.log("firebase")
-    console.log(res);
-    return res.data();
-  }
-  return null;
-}*/
-
 export const borrarUsuario = async () => {
   const user = auth.currentUser;
   if (user != null) {
@@ -89,7 +71,7 @@ export const borrarUsuario = async () => {
   }
 };
 
-export const CrearModificarUsuario = async (usuario) => {
+export const modificarUsuario = async (usuario) => {
   const user = auth.currentUser;
   if (user != null) {
     try {
@@ -100,16 +82,10 @@ export const CrearModificarUsuario = async (usuario) => {
   }
 };
 
-export const modificarUsuario = async usuario => {
-  return await firestore
-    .collection("usuarios")
-    .doc(usuario.uid)
-    .update(usuario);
-};
-
 export const agregarUsuario = async usuario => {
+  const user = auth.currentUser;
   try {
-    return await firestore.collection("usuarios").add(usuario);
+    return await firestore.collection("usuarios").doc(user.uid).set(usuario);
   } catch (error) {
     console.log(error);
   }

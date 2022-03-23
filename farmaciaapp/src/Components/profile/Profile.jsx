@@ -12,6 +12,7 @@ import test2 from "../../assets/ImagenTest1.jpg";
 import { obtenerUsuario } from "../../Firebase/usuarios";
 import carrito from "../../assets/compra.svg";
 import './Profile.css';
+
 function Profile() {
     const favs = [
         { imagen: test2, nombre: "Pastilla para la gripe", Descripcion: "20 lps" },
@@ -19,11 +20,14 @@ function Profile() {
         { imagen: test2, nombre: "Pastilla para la gripe", Descripcion: "20 lps" },
         { imagen: test2, nombre: "Pastilla para la gripe", Descripcion: "20 lps" }
     ];
+
     const [user, setUser] = useState({
         Nombre: "",
         correo: "",
         createdAt: "",
         uid: "",
+        ListaCompras: [],
+        ListaAnterior: [],
         Direccion: "",
         telefono: ""
     });
@@ -40,6 +44,8 @@ function Profile() {
                         correo: userAuth.email,
                         createdAt: !!userAuth ? ref.fechaCreacion.toDate() : "",
                         uid: !!userAuth ? ref.UID : "",
+                        ListaCompras: !!userAuth ? ref.ListaCompras : [],
+                        ListaAnterior: !!userAuth ? ref.ListaAnterior : [],
                         Direccion: !!userAuth ? ref.Direccion : "",
                         telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
                     });
@@ -51,6 +57,8 @@ function Profile() {
                         correo: "",
                         createdAt: "",
                         uid: "",
+                        ListaCompras: [],
+                        ListaAnterior: [],
                         Direccion: "",
                         telefono: ""
                     });
@@ -58,6 +66,7 @@ function Profile() {
         });
     }, []);
 
+    const anterior=user.ListaAnterior;
     console.log("datos");
     console.log(user);
     const navigate = useNavigate();
@@ -109,10 +118,10 @@ function Profile() {
                     <h6>Productos comprados anteriormente</h6>
                     <Col className="d-flex justify-content-center">
                         <Row xs={1} md={2} className="g-4">
-                            {Array.isArray(favs) && Boolean(favs.length) ? (
+                            {Array.isArray(anterior) && Boolean(anterior.length) ? (
                                 favs.slice().map((elem, index) => {
                                     return (
-                                        <Card className="tarjeta">
+                                        <Card className="tarjeta" key={index.toString()}>
                                             <div className="card-img-top">
                                                 <Card.Img className="w-100" variant="top" src={elem.imagen} />
                                             </div>
@@ -126,7 +135,7 @@ function Profile() {
                                                     </Card.Text>
                                                 </div>
                                                 <div className="d-flex justify-content-center">
-                                                    <Button 
+                                                    <Button
                                                         style={{
                                                             backgroundColor: "#89E9A9",
                                                             borderColor: "#89E9A9",
@@ -140,7 +149,7 @@ function Profile() {
                             ) : (
                                 <div className="d-flex justify-content-center">
                                     <h1 className="text-center">
-                                        Lo siento, aun no hay favoritos :c
+                                        Lo siento, aun no ha comprado ningun articulo :c
                                     </h1>
                                 </div>
                             )}

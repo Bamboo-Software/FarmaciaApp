@@ -12,7 +12,9 @@ import imgSiguiente from "../../assets/next.svg";
 import imgAnterior from "../../assets/before.svg";
 import { ButtonGroup } from "react-bootstrap";
 import { obtenerHigiene, obtenerMascarilla, obtenerProductos } from "../../Firebase/productos";
+import { obtenerUsuario, modificarUsuario } from "../../Firebase/usuarios";
 import { firestore } from "../../Firebase/firebase.utils";
+import { auth } from "../../Firebase/firebase.utils";
 
 function Home({ sendText }) {
     /*const busquedaDefault =
@@ -38,7 +40,7 @@ function Home({ sendText }) {
     console.log("desde padre: ");
     //console.log(props.data);
     console.log(prueba.sendText);
-    
+
     const [productos, setProductos] = useState([]);
     const [populares2, setPopulares] = useState([]);
     const [higiene, setHigiene] = useState([]);
@@ -59,39 +61,39 @@ function Home({ sendText }) {
                 arreglo = arreglo.filter((elemento) => {
                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                 });
-            console.log(" producto ",arreglo);
+            console.log(" producto ", arreglo);
             setProductos(arreglo);
-        
+
         });
         obtenerHigiene().then(lista => {
-             setHigiene(lista);
-             let arreglo = lista;
-             console.log(arreglo);
-             const Nombre = prueba.sendText;
-             if (!(Nombre === ""))
-                 arreglo = arreglo.filter((elemento) => {
-                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
-                 });
-             console.log("Higiene ",arreglo);
-             setHigiene(arreglo);
-         });
-         obtenerMascarilla().then(lista => {
-             setMascarillas(lista);
-             let arreglo = lista;
-             
-             console.log(arreglo);
-             const Nombre = prueba.sendText;
-             if (!(Nombre === ""))
-                 arreglo = arreglo.filter((elemento) => {
-                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
-                 });
-             console.log("Mascarilla ",arreglo);
-             
-             setMascarillas(arreglo);
-         });
-      
-        
-        
+            setHigiene(lista);
+            let arreglo = lista;
+            console.log(arreglo);
+            const Nombre = prueba.sendText;
+            if (!(Nombre === ""))
+                arreglo = arreglo.filter((elemento) => {
+                    return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
+                });
+            console.log("Higiene ", arreglo);
+            setHigiene(arreglo);
+        });
+        obtenerMascarilla().then(lista => {
+            setMascarillas(lista);
+            let arreglo = lista;
+
+            console.log(arreglo);
+            const Nombre = prueba.sendText;
+            if (!(Nombre === ""))
+                arreglo = arreglo.filter((elemento) => {
+                    return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
+                });
+            console.log("Mascarilla ", arreglo);
+
+            setMascarillas(arreglo);
+        });
+
+
+
     }, [sendText]);
 
     //   console.log(productos);
@@ -154,188 +156,272 @@ function Home({ sendText }) {
             </div>);
         }
     }
-    
-    if (!productos) { return <div>Loading...</div> }else{
-        productos.forEach((elem)=>{
-            if(elem.unidades_vendidas>10)
-                MostPopular.push(elem)
-        })
-        mascarillas.forEach((elem)=>{
-            if(elem.unidades_vendidas>10)
-                MostPopular.push(elem)
-        })
-        higiene.forEach((elem)=>{
-            if(elem.unidades_vendidas>10)
-                MostPopular.push(elem)
-        })
-       
-        
-    return (
-        <div>
-            <Row>
-                <Col className="d-flex justify-content-center">
-                    <Carousel variant="dark">
-                        <Carousel.Item>
-                            <div className="carousel">
-                                <img
-                                    className="d-block w-100"
-                                    src={test}
-                                    alt="First slide"
-                                />
-                            </div>
 
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <div className="carousel">
-                                <img
-                                    className="d-block w-100"
-                                    src={test}
-                                    alt="First slide"
-                                />
-                            </div>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <div className="carousel">
-                                <img
-                                    className="d-block w-100"
-                                    src={test}
-                                    alt="First slide"
-                                />
-                            </div>
-                        </Carousel.Item>
-                    </Carousel>
-                </Col>
-            </Row>
-            <Container fluid>
-                <p></p>
+    const [user, setUser] = useState({
+        Nombre: "",
+        //    correo: "",
+        fechaCreacion: "",
+        UID: "",
+        ListaCompras: [],
+        ListaAnterior: [],
+        Direccion: "",
+        Telefono: ""
+    });
+
+    useEffect(() => {
+        auth.onAuthStateChanged(userAuth => {
+            obtenerUsuario(!!userAuth ? userAuth.uid : null)
+                .then(usuario => {
+                    console.log("Entre a usuario")
+                    const ref = usuario;
+                    console.log(ref);
+                    setUser({
+                        Nombre: !!userAuth ? ref.Nombre : "",
+                        //                  correo: userAuth.email,
+                        fechaCreacion: !!userAuth ? ref.fechaCreacion.toDate() : "",
+                        UID: !!userAuth ? ref.UID : "",
+                        ListaCompras: !!userAuth ? ref.ListaCompras : [],
+                        ListaAnterior: !!userAuth ? ref.ListaAnterior : [],
+                        Direccion: !!userAuth ? ref.Direccion : "",
+                        Telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
+                    });
+                })
+                .catch(() => {
+                    console.log("Quiebro aca")
+                    setUser({
+                        Nombre: "",
+                        //correo: "",
+                        fechaCreacion: "",
+                        UID: "",
+                        ListaCompras: [],
+                        ListaAnterior: [],
+                        Direccion: "",
+                        Telefono: ""
+                    });
+                });
+        });
+    }, []);
+
+
+    function AddToCar(ID) {
+        try {
+            console.log("ID seleccionado");
+            console.log(ID);
+            console.log("afuera");
+
+            if (productos.find(element => element.id == ID) != null) {
+                console.log("adentro");
+                user.ListaCompras.push(productos.find(element => {
+                    return element.id == ID;
+                }));
+            }
+
+            if (mascarillas.find(element => element.id == ID) != null) {
+                console.log("adentro");
+                user.ListaCompras.push(mascarillas.find(element => {
+                    return element.id == ID;
+                }));
+            }
+
+            if (higiene.find(element => element.id == ID) != null) {
+                console.log("adentro");
+                user.ListaCompras.push(higiene.find(element => {
+                    return element.id == ID;
+                }));
+            }
+
+            modificarUsuario(user);
+
+            console.log("encontro: ");
+            console.log(user);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    if (!productos) { return <div>Loading...</div> } else {
+        productos.forEach((elem) => {
+            if (elem.unidades_vendidas > 10)
+                MostPopular.push(elem)
+        })
+        mascarillas.forEach((elem) => {
+            if (elem.unidades_vendidas > 10)
+                MostPopular.push(elem)
+        })
+        higiene.forEach((elem) => {
+            if (elem.unidades_vendidas > 10)
+                MostPopular.push(elem)
+        })
+
+        return (
+            <div>
                 <Row>
-                    <Col className="d-flex justify-content-start">
-                        <h1
-                            style={{
-                                fontSize: "28px",
-                                fontFamily: "Roboto"
-                            }}
-                        >Novedades</h1>
+                    <Col className="d-flex justify-content-center">
+                        <Carousel variant="dark">
+                            <Carousel.Item>
+                                <div className="carousel">
+                                    <img
+                                        className="d-block w-100"
+                                        src={test}
+                                        alt="First slide"
+                                    />
+                                </div>
+
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="carousel">
+                                    <img
+                                        className="d-block w-100"
+                                        src={test}
+                                        alt="First slide"
+                                    />
+                                </div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="carousel">
+                                    <img
+                                        className="d-block w-100"
+                                        src={test}
+                                        alt="First slide"
+                                    />
+                                </div>
+                            </Carousel.Item>
+                        </Carousel>
                     </Col>
                 </Row>
-                <Row>
-                    <div className="d-flex justify-content-start">
-                        {siguienteAnteriorBttn()}
-                    </div>
-                </Row>
-                <div className="d-flex justify-content-center">
-                    <Row xs={2} md={5} className="g-4">
-                        {Array.isArray(productos) && Boolean(productos.length) ? (
-                            productos.slice(cont, cont + 5).map((elem, index) => {
-                                return (
-                                    <Card className="tarjetita">
-                                        <div className="card-img-top">
-                                            <Card.Img className="w-100" variant="top" src={elem.imagen} />
-                                        </div>
-                                        <Card.Body>
-                                            <div className="d-flex justify-content-center">
-                                                <a style={{ fontWeight: "bold" }}>{elem.nombre}</a>
-
-                                            </div>
-                                            <div className="d-flex justify-content-center">
-                                                <p>
-                                                    {elem.precio} lps.
-                                                </p>
-                                            </div>
-                                            <div className="d-flex justify-content-center">
-                                                <Button
-                                                    style={{
-                                                        backgroundColor: "#89E9A9",
-                                                        borderColor: "#89E9A9",
-                                                        color: "#000000"
-                                                    }}
-                                                >
-                                                    <img src={carrito} />
-                                                    Añadir
-                                                </Button>
-                                            </div>
-                                        </Card.Body>
-                                    </Card>
-                                );
-                            })
-                        ) : (
-                            <div className="d-flex justify-content-center">
-                                <h1 className="text-center">
-                                    Lo siento, aun no hay novedades :c
-                                </h1>
-                            </div>
-                        )}
+                <Container fluid>
+                    <p></p>
+                    <Row>
+                        <Col className="d-flex justify-content-start">
+                            <h1
+                                style={{
+                                    fontSize: "28px",
+                                    fontFamily: "Roboto"
+                                }}
+                            >Novedades</h1>
+                        </Col>
                     </Row>
-                </div>
-                <p></p>
+                    <Row>
+                        <div className="d-flex justify-content-start">
+                            {siguienteAnteriorBttn()}
+                        </div>
+                    </Row>
+                    <div className="d-flex justify-content-center">
+                        <Row xs={2} md={5} className="g-4">
+                            {Array.isArray(productos) && Boolean(productos.length) ? (
+                                productos.slice(cont, cont + 5).map((elem, index) => {
+                                    return (
+                                        <Card className="tarjetita" key={index.toString()}>
+                                            <div className="card-img-top">
+                                                <Card.Img className="w-100" variant="top" src={elem.imagen} />
+                                            </div>
+                                            <Card.Body>
+                                                <div className="d-flex justify-content-center">
+                                                    <a style={{ fontWeight: "bold" }}>{elem.nombre}</a>
 
-            </Container>
+                                                </div>
+                                                <div className="d-flex justify-content-center">
+                                                    <p>
+                                                        {elem.precio} lps.
+                                                    </p>
+                                                </div>
+                                                <div className="d-flex justify-content-center">
+                                                    <Button
+                                                        style={{
+                                                            backgroundColor: "#89E9A9",
+                                                            borderColor: "#89E9A9",
+                                                            color: "#000000"
+                                                        }}
+                                                        onClick={() => AddToCar(elem.id)}
+                                                    >
+                                                        <img src={carrito} />
+                                                        Añadir
+                                                    </Button>
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
+                                    );
+                                })
+                            ) : (
+                                <div className="d-flex justify-content-center">
+                                    <h1 className="text-center">
+                                        Lo siento, aun no hay novedades :c
+                                    </h1>
+                                </div>
+                            )}
+                        </Row>
+                    </div>
+                    <p></p>
 
-            <Container fluid>
-                <p></p>
-                <Row>
-                    <Col className="d-flex justify-content-start">
-                        <h1
-                            style={{
-                                fontSize: "28px",
-                                fontFamily: "Roboto"
-                            }}
-                        >Populares</h1>
+                </Container>
+
+                <Container fluid>
+                    <p></p>
+                    <Row>
+                        <Col className="d-flex justify-content-start">
+                            <h1
+                                style={{
+                                    fontSize: "28px",
+                                    fontFamily: "Roboto"
+                                }}
+                            >Populares</h1>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <div className="d-flex justify-content-start">
+                            {siguienteAnteriorBttn2()}
+                        </div>
+                    </Row>
+                    <Col className="d-flex justify-content-center">
+                        <Row xs={2} md={5} className="g-4">
+                            {Array.isArray(MostPopular) && Boolean(MostPopular.length) ? (
+                                MostPopular.slice(cont2, cont2 + 5).map((elem, index) => {
+                                    return (
+                                        <Card className="tarjetita" key={index.toString()}>
+                                            <div className="card-img-top">
+                                                <Card.Img className="w-100" variant="top" src={elem.imagen} />
+                                            </div>
+                                            <Card.Body>
+                                                <div className="d-flex justify-content-center">
+                                                    <a style={{ fontWeight: "bold" }}>{elem.nombre}</a>
+
+                                                </div>
+                                                <div className="d-flex justify-content-center">
+                                                    <p>
+                                                        {elem.precio} lps.
+                                                    </p>
+                                                </div>
+                                                <div className="d-flex justify-content-center">
+                                                    <Button
+                                                        style={{
+                                                            backgroundColor: "#89E9A9",
+                                                            borderColor: "#89E9A9",
+                                                            color: "#000000"
+                                                        }}
+                                                        onClick={() => AddToCar(elem.id)}
+                                                    >
+                                                        <img src={carrito} />
+                                                        Añadir
+                                                    </Button>
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
+                                    );
+                                })
+                            ) : (
+                                <div className="d-flex justify-content-center">
+                                    <h1 className="text-center">
+                                        Lo siento, aun no hay populares :c
+                                    </h1>
+                                </div>
+                            )}
+                        </Row>
                     </Col>
-                </Row>
-                <Row>
-                    <div className="d-flex justify-content-start">
-                        {siguienteAnteriorBttn2()}
-                    </div>
-                </Row>
-                <Col className="d-flex justify-content-center">
-                    <Row xs={2} md={5} className="g-4">
-                        {Array.isArray(MostPopular) && Boolean(MostPopular.length) ? (
-                            MostPopular.slice(cont2, cont2 + 5).map((elem, index) => {
-                                return (
-                                    <Card className="tarjetita">
-                                        <div className="card-img-top">
-                                            <Card.Img className="w-100" variant="top" src={elem.imagen} />
-                                        </div>
-                                        <Card.Body>
-                                            <div className="d-flex justify-content-center">
-                                                <a style={{ fontWeight: "bold" }}>{elem.nombre}</a>
-
-                                            </div>
-                                            <div className="d-flex justify-content-center">
-                                                <p>
-                                                    {elem.precio} lps.
-                                                </p>
-                                            </div>
-                                            <div className="d-flex justify-content-center">
-                                                <Button
-                                                    style={{
-                                                        backgroundColor: "#89E9A9",
-                                                        borderColor: "#89E9A9",
-                                                        color: "#000000"
-                                                    }}
-                                                >
-                                                    <img src={carrito} />
-                                                    Añadir
-                                                </Button>
-                                            </div>
-                                        </Card.Body>
-                                    </Card>
-                                );
-                            })
-                        ) : (
-                            <div className="d-flex justify-content-center">
-                                <h1 className="text-center">
-                                    Lo siento, aun no hay populares :c
-                                </h1>
-                            </div>
-                        )}
-                    </Row>
-                </Col>
-                <p></p>
-            </Container>
-        </div>
-    );}
+                    <p></p>
+                </Container>
+            </div>
+        );
+    }
 }
 
 export default Home;
