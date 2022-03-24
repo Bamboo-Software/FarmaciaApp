@@ -15,15 +15,22 @@ import { ButtonGroup } from "react-bootstrap";
 import { obtenerHigiene, obtenerMascarilla, obtenerProductos } from "../../Firebase/productos";
 import { obtenerUsuario, modificarUsuario } from "../../Firebase/usuarios";
 import { firestore } from "../../Firebase/firebase.utils";
+import Toast from 'react-bootstrap/Toast';
 import { auth } from "../../Firebase/firebase.utils";
+import { useNavigate } from "react-router-dom";
 
-function Home({ sendText }) {
+function Home({ sendText, recieveText }) {
     /*const busquedaDefault =
     {
         'nombre': ''
     };
-
+    
     const [busquedaAvanzada, setBusquedaAvanzada] = React.useState(busquedaDefault);*/
+    const navigate = useNavigate();
+
+    function handleClick(path) {
+        navigate(path);
+    }
     const populares = [
         { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
         { imagen: test2, nombre: "Pastilla para la gripe2", precio: 20 },
@@ -43,7 +50,8 @@ function Home({ sendText }) {
     console.log("desde padre: ");
     //console.log(props.data);
     console.log(prueba.sendText);
-
+    const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
     const [productos, setProductos] = useState([]);
     const [Active, setActive] = useState([]);
     const [higiene, setHigiene] = useState([]);
@@ -125,8 +133,9 @@ function Home({ sendText }) {
                         Telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
                     });
                 })
-                .catch(() => {
+                .catch((err) => {
                     console.log("Quiebro aca")
+                    console.log(err);
                     setUser({
                         Nombre: "",
                         //correo: "",
@@ -207,29 +216,39 @@ function Home({ sendText }) {
             console.log("ID seleccionado");
             console.log(ID);
             console.log("afuera");
+            if (user.ListaCompras.find(element => element.id == ID) != null) {
+                console.log("ya existe");
+                setShow2(true);
+            } else {
+                if (productos.find(element => element.id == ID) != null) {
+                    console.log("adentro");
+                    user.ListaCompras.push(productos.find(element => {
+                        return element.id == ID;
+                    }));
+                  //  recieveText(user.ListaCompras.length);
+                    modificarUsuario(user);
+                    setShow(true);
+                }
+                if (mascarillas.find(element => element.id == ID) != null) {
+                    console.log("adentro");
+                    user.ListaCompras.push(mascarillas.find(element => {
+                        return element.id == ID;
+                    }));
+                 //   recieveText(user.ListaCompras.length);
+                    modificarUsuario(user);
+                    setShow(true);
+                }
 
-            if (productos.find(element => element.id == ID) != null) {
-                console.log("adentro");
-                user.ListaCompras.push(productos.find(element => {
-                    return element.id == ID;
-                }));
+                if (higiene.find(element => element.id == ID) != null) {
+                    console.log("adentro");
+                    user.ListaCompras.push(higiene.find(element => {
+                        return element.id == ID;
+                    }));
+                //    recieveText(user.ListaCompras.length);
+                    modificarUsuario(user);
+                    setShow(true);
+                }
             }
-
-            if (mascarillas.find(element => element.id == ID) != null) {
-                console.log("adentro");
-                user.ListaCompras.push(mascarillas.find(element => {
-                    return element.id == ID;
-                }));
-            }
-
-            if (higiene.find(element => element.id == ID) != null) {
-                console.log("adentro");
-                user.ListaCompras.push(higiene.find(element => {
-                    return element.id == ID;
-                }));
-            }
-
-            modificarUsuario(user);
 
             console.log("encontro: ");
             console.log(user);
@@ -289,6 +308,33 @@ function Home({ sendText }) {
                     </Col>
                 </Row>
                 <Container fluid>
+                    <p></p>
+                    <Row>
+                        <Col>
+                            <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+                                <Toast.Header>
+                                    <img
+                                        src="holder.js/20x20?text=%20"
+                                        className="rounded me-2"
+                                        alt=""
+                                    />
+                                    <strong className="me-auto">Lista de compras</strong>
+                                </Toast.Header>
+                                <Toast.Body>¡Producto Agregado a la lista!</Toast.Body>
+                            </Toast>
+                            <Toast onClose={() => setShow2(false)} show={show2} delay={3000} autohide>
+                                <Toast.Header>
+                                    <img
+                                        src="holder.js/20x20?text=%20"
+                                        className="rounded me-2"
+                                        alt=""
+                                    />
+                                    <strong className="me-auto">Lista de compras</strong>
+                                </Toast.Header>
+                                <Toast.Body>Este producto ya se encuentra en la lista, por favor seleccione otro</Toast.Body>
+                            </Toast>
+                        </Col>
+                    </Row>
                     <p></p>
                     <Row>
                         <Col className="d-flex justify-content-start">

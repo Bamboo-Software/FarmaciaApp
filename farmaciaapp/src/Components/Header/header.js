@@ -12,7 +12,8 @@ import { useNavigate } from "react-router-dom";
 import logito from "../../assets/logoProvisional.jpg";
 import { contextoUser } from "../../contexto/contexto";
 import carrito from "../../assets/compra.svg";
-import Home  from "../../Pages/Landing/Inicio";
+import Home from "../../Pages/Landing/Inicio";
+import { obtenerUsuario, modificarUsuario } from "../../Firebase/usuarios";
 
 function Header() {
     const [busqueda, setBusqueda] = useState("");
@@ -23,8 +24,53 @@ function Header() {
 
     const sendText = () => {
         setData(busqueda);
-       // window.location.replace("/");
+        // window.location.replace("/");
     }
+
+    const [user2, setUser2] = useState({
+        Nombre: "",
+        //    correo: "",
+        fechaCreacion: "",
+        UID: "",
+        ListaCompras: [],
+        ListaAnterior: [],
+        Direccion: "",
+        Telefono: ""
+    });
+
+    useEffect(() => {
+        auth.onAuthStateChanged(userAuth => {
+            obtenerUsuario(!!userAuth ? userAuth.uid : null)
+                .then(usuario => {
+                    console.log("Entre a usuario")
+                    const ref = usuario;
+                    console.log(ref);
+                    setUser2({
+                        Nombre: !!userAuth ? ref.Nombre : "",
+                        //                  correo: userAuth.email,
+                        fechaCreacion: !!userAuth ? ref.fechaCreacion.toDate() : "",
+                        UID: !!userAuth ? ref.UID : "",
+                        ListaCompras: !!userAuth ? ref.ListaCompras : [],
+                        ListaAnterior: !!userAuth ? ref.ListaAnterior : [],
+                        Direccion: !!userAuth ? ref.Direccion : "",
+                        Telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
+                    });
+                })
+                .catch(() => {
+                    console.log("Quiebro aca")
+                    setUser2({
+                        Nombre: "",
+                        //correo: "",
+                        fechaCreacion: "",
+                        UID: "",
+                        ListaCompras: [],
+                        ListaAnterior: [],
+                        Direccion: "",
+                        Telefono: ""
+                    });
+                });
+        });
+    }, []);
 
     const handleSignOut = () => {
         auth.signOut();
@@ -37,7 +83,7 @@ function Header() {
 
     return (
         <>
-        
+
             <Container fluid>
                 <Row>
                     <Col className="d-flex justify-content-start">

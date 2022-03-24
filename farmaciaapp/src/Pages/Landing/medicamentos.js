@@ -16,6 +16,7 @@ import { obtenerHigiene, obtenerMascarilla, obtenerProductos } from "../../Fireb
 import { firestore } from "../../Firebase/firebase.utils";
 import { auth } from "../../Firebase/firebase.utils";
 import { obtenerUsuario, modificarUsuario } from "../../Firebase/usuarios";
+import Toast from 'react-bootstrap/Toast';
 
 function Medicamentos({ sendText }) {
     const [productos, setProductos] = useState([]);
@@ -23,7 +24,8 @@ function Medicamentos({ sendText }) {
     const [numeroPaginas, setNumeroPaginas] = useState(0);
 
     const prueba = { sendText };
-
+    const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
     const [cont2, setCont2] = useState(0);
     const [numeroPaginas2, setNumeroPaginas2] = useState(0);
     const [user, setUser] = useState({
@@ -77,15 +79,19 @@ function Medicamentos({ sendText }) {
             console.log(ID);
             console.log("afuera");
 
-            if (productos.find(element => element.id == ID) != null) {
-                console.log("adentro");
-                user.ListaCompras.push(productos.find(element => {
-                    return element.id == ID;
-                }));
+            if (user.ListaCompras.find(element => element.id == ID) != null) {
+                console.log("ya existe");
+                setShow2(true);
+            } else {
+                if (productos.find(element => element.id == ID) != null) {
+                    console.log("adentro");
+                    user.ListaCompras.push(productos.find(element => {
+                        return element.id == ID;
+                    }));
+                    modificarUsuario(user);
+                    setShow(true);
+                }
             }
-
-            modificarUsuario(user);
-
             console.log("encontro: ");
             console.log(user);
         } catch (error) {
@@ -178,6 +184,33 @@ function Medicamentos({ sendText }) {
                 </Col>
             </Row>
             <Container fluid>
+                <p></p>
+                <Row>
+                    <Col>
+                        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+                            <Toast.Header>
+                                <img
+                                    src="holder.js/20x20?text=%20"
+                                    className="rounded me-2"
+                                    alt=""
+                                />
+                                <strong className="me-auto">Lista de compras</strong>
+                            </Toast.Header>
+                            <Toast.Body>¡Producto Agregado a la lista!</Toast.Body>
+                        </Toast>
+                        <Toast onClose={() => setShow2(false)} show={show2} delay={3000} autohide>
+                            <Toast.Header>
+                                <img
+                                    src="holder.js/20x20?text=%20"
+                                    className="rounded me-2"
+                                    alt=""
+                                />
+                                <strong className="me-auto">Lista de compras</strong>
+                            </Toast.Header>
+                            <Toast.Body>Este producto ya se encuentra en la lista, por favor seleccione otro</Toast.Body>
+                        </Toast>
+                    </Col>
+                </Row>
                 <p></p>
                 <Row>
                     <Col className="d-flex justify-content-start">

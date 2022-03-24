@@ -25,6 +25,7 @@ import { auth } from "./Firebase/firebase.utils";
 import { Button, Container } from "react-bootstrap";
 import { Col, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import { obtenerUsuario, modificarUsuario } from "./Firebase/usuarios";
 
 function App() {
   const [busqueda, setBusqueda] = useState("");
@@ -32,6 +33,58 @@ function App() {
   console.log(busqueda);
   const navigate = useNavigate();
   const user = useContext(contextoUser);
+  const [size, setSize] = useState("");
+
+  console.log("tamaño arreglo: ");
+  console.log(size);
+
+  const [user2, setUser2] = useState({
+    Nombre: "",
+    //    correo: "",
+    fechaCreacion: "",
+    UID: "",
+    ListaCompras: [],
+    ListaAnterior: [],
+    Direccion: "",
+    Telefono: ""
+  });
+  let tama="";
+
+  useEffect(() => {
+    auth.onAuthStateChanged(userAuth => {
+      obtenerUsuario(!!userAuth ? userAuth.uid : null)
+        .then(usuario => {
+          console.log("Entre a usuario")
+          const ref = usuario;
+          console.log(ref);
+          setUser2({
+            Nombre: !!userAuth ? ref.Nombre : "",
+            //                  correo: userAuth.email,
+            fechaCreacion: !!userAuth ? ref.fechaCreacion.toDate() : "",
+            UID: !!userAuth ? ref.UID : "",
+            ListaCompras: !!userAuth ? ref.ListaCompras : [],
+            ListaAnterior: !!userAuth ? ref.ListaAnterior : [],
+            Direccion: !!userAuth ? ref.Direccion : "",
+            Telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
+          });
+          console.log(user2.ListaCompras.length);
+        })
+        .catch((err) => {
+          console.log("Quiebro aca")
+          console.log(err);
+          setUser2({
+            Nombre: "",
+            //correo: "",
+            fechaCreacion: "",
+            UID: "",
+            ListaCompras: [],
+            ListaAnterior: [],
+            Direccion: "",
+            Telefono: ""
+          });
+        });
+    });
+  }, [obtenerUsuario(user2.UID).then((x)=>{ return x.ListaCompras.length})]);
 
   const sendText = () => {
     setData(busqueda);
@@ -100,7 +153,7 @@ function App() {
                     color: "#000000"
                   }}
                   onClick={() => handleClick("/CarroCompras")}
-                ><img src={carrito} /> Lista</NavLink>
+                ><img src={carrito} /> {`(${user2.ListaCompras.length})Lista`}</NavLink>
 
                 <NavLink
                   style={{

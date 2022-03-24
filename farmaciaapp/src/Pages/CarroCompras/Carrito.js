@@ -7,22 +7,29 @@ import carrito from "../../assets/compra.svg";
 import { auth } from "../../Firebase/firebase.utils";
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button";
-
+import imgSiguiente from "../../assets/next.svg";
+import imgAnterior from "../../assets/before.svg";
+import { ButtonGroup } from "react-bootstrap";
 import "./Carrito.css";
+import Toast from 'react-bootstrap/Toast';
 
 function Carrito() {
+    const [show2, setShow2] = useState(false);
     var amount = "";
     var total = 0;
     const [user, setUser] = useState({
         Nombre: "",
-        correo: "",
-        createdAt: "",
-        uid: "",
+        //    correo: "",
+        fechaCreacion: "",
+        UID: "",
         ListaCompras: [],
         ListaAnterior: [],
         Direccion: "",
-        telefono: ""
+        Telefono: ""
     });
+
+    const [cont, setCont] = useState(0);
+    const [numeroPaginas, setNumeroPaginas] = useState(0);
 
     useEffect(() => {
         auth.onAuthStateChanged(userAuth => {
@@ -33,26 +40,27 @@ function Carrito() {
                     console.log(ref);
                     setUser({
                         Nombre: !!userAuth ? ref.Nombre : "",
-                        correo: userAuth.email,
-                        createdAt: !!userAuth ? ref.fechaCreacion.toDate() : "",
-                        uid: !!userAuth ? ref.UID : "",
+                        //                  correo: userAuth.email,
+                        fechaCreacion: !!userAuth ? ref.fechaCreacion.toDate() : "",
+                        UID: !!userAuth ? ref.UID : "",
                         ListaCompras: !!userAuth ? ref.ListaCompras : [],
                         ListaAnterior: !!userAuth ? ref.ListaAnterior : [],
                         Direccion: !!userAuth ? ref.Direccion : "",
-                        telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
+                        Telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
                     });
                 })
-                .catch(() => {
+                .catch((err) => {
                     console.log("Quiebro aca")
+                    console.log(err);
                     setUser({
                         Nombre: "",
-                        correo: "",
-                        createdAt: "",
-                        uid: "",
+                        //correo: "",
+                        fechaCreacion: "",
+                        UID: "",
                         ListaCompras: [],
                         ListaAnterior: [],
                         Direccion: "",
-                        telefono: ""
+                        Telefono: ""
                     });
                 });
         });
@@ -63,16 +71,71 @@ function Carrito() {
         { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 },
         { imagen: test2, nombre: "Pastilla para la gripe", precio: 20 }
     ];*/
-    const lista=user.ListaCompras;
+    const lista = user.ListaCompras;
+    const siguiente = (e) => {
+        e.preventDefault();
+        if ((numeroPaginas * 3) < (Math.ceil(lista.length / 3))) {
+            setNumeroPaginas(numeroPaginas + 1);
+            setCont(cont + 3);
+        } else {
+            setCont(0);
+            setNumeroPaginas(0);
+        }
+    }
+
+    const anterior = (e) => {
+        e.preventDefault();
+        if (cont - 3 >= 0) {
+            setCont(cont - 3);
+            setNumeroPaginas(numeroPaginas - 1);
+        }
+    }
+
+    const siguienteAnteriorBttn = () => {
+        if (lista.length > 3) {
+            return (<div className="mt-4 mx-4">
+                <ButtonGroup>
+                    <Button onClick={anterior} className="btn btn-light bttn-anterior-despues-promo"><img className="imagen-bttn-promo-anterior" src={imgAnterior} /></Button>
+                    <Button onClick={siguiente} className="btn btn-light bttn-anterior-despues-promo"><img className="imagen-bttn-promo-siguiente" src={imgSiguiente} /></Button>
+                </ButtonGroup>
+            </div>);
+        }
+    }
+    function eliminarArticulo(ID) {
+        user.ListaCompras = lista.filter(element => {
+            return element.id !== ID;
+        });
+        modificarUsuario(user);
+        setShow2(true);
+        console.log("resultado");
+        console.log(user);
+    };
     return (
         <Container fluid>
             <Row>
                 <p></p>
+                <Row>
+                    <Col>
+                        <Toast onClose={() => setShow2(false)} show={show2} delay={3000} autohide>
+                            <Toast.Header>
+                                <img
+                                    src="holder.js/20x20?text=%20"
+                                    className="rounded me-2"
+                                    alt=""
+                                />
+                                <strong className="me-auto">Lista de compras</strong>
+                            </Toast.Header>
+                            <Toast.Body>¡Producto eliminado con exito!</Toast.Body>
+                        </Toast>
+                    </Col>
+                </Row>
+                <p></p>
                 <div className="d-flex justify-content-center">
                     <h1>Articulos </h1>
                 </div>
+                <p></p>
                 <Col className="d-flex justify-content-center">
-                    <Row xs={2} md={5} className="g-4">
+                    <Row xs={2} md={4} className="g-4">
                         {Array.isArray(lista) && Boolean(lista.length) ? (
                             lista.slice().map((elem, index) => {
                                 total += elem.precio;
@@ -94,7 +157,9 @@ function Carrito() {
                                                 <Button variant="danger" type="submit"
                                                     style={{
                                                         marginTop: "2px"
-                                                    }}>Eliminar de la lista</Button>
+                                                    }}
+                                                    onClick={() => eliminarArticulo(elem.id)}
+                                                >Eliminar de la lista</Button>
                                             </div>
                                         </Card.Body>
                                     </Card>
