@@ -84,7 +84,7 @@ function App() {
           });
         });
     });
-  }, [obtenerUsuario(user2.UID).then((x)=>{ return x.ListaCompras.length})]);
+  }, []);
 
   const sendText = () => {
     setData(busqueda);
