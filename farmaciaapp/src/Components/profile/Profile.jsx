@@ -9,8 +9,10 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../Firebase/firebase.utils";
 import test2 from "../../assets/ImagenTest1.jpg";
-import { obtenerUsuario } from "../../Firebase/usuarios";
+import { obtenerUsuario, modificarUsuario } from "../../Firebase/usuarios";
+import Toast from 'react-bootstrap/Toast';
 import carrito from "../../assets/compra.svg";
+import Modal from 'react-bootstrap/Modal';
 import './Profile.css';
 
 function Profile() {
@@ -21,15 +23,26 @@ function Profile() {
         { imagen: test2, nombre: "Pastilla para la gripe", Descripcion: "20 lps" }
     ];
 
+    const [nombre, setNombre] = useState("");
+    const [correo, setCorreo] = useState("");
+    const [telefono, setTelefono] = useState("");
+    const [direccion, setDireccion] = useState("");
+    const [estado, setEstado] = useState(true);
+    const [estado2, setEstado2] = useState(false);
+    const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
+    const [respuesta, setRespuesta] = useState(false);
+
+
     const [user, setUser] = useState({
         Nombre: "",
-        correo: "",
-        createdAt: "",
-        uid: "",
+        //    correo: "",
+        fechaCreacion: "",
+        UID: "",
         ListaCompras: [],
         ListaAnterior: [],
         Direccion: "",
-        telefono: ""
+        Telefono: ""
     });
 
     useEffect(() => {
@@ -39,34 +52,83 @@ function Profile() {
                     console.log("Entre a usuario")
                     const ref = usuario;
                     console.log(ref);
+                    setCorreo(userAuth.email);
                     setUser({
                         Nombre: !!userAuth ? ref.Nombre : "",
-                        correo: userAuth.email,
-                        createdAt: !!userAuth ? ref.fechaCreacion.toDate() : "",
-                        uid: !!userAuth ? ref.UID : "",
+                        //                  correo: userAuth.email,
+                        fechaCreacion: !!userAuth ? ref.fechaCreacion.toDate() : "",
+                        UID: !!userAuth ? ref.UID : "",
                         ListaCompras: !!userAuth ? ref.ListaCompras : [],
                         ListaAnterior: !!userAuth ? ref.ListaAnterior : [],
                         Direccion: !!userAuth ? ref.Direccion : "",
-                        telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
+                        Telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
                     });
                 })
                 .catch(() => {
                     console.log("Quiebro aca")
                     setUser({
                         Nombre: "",
-                        correo: "",
-                        createdAt: "",
-                        uid: "",
+                        //correo: "",
+                        fechaCreacion: "",
+                        UID: "",
                         ListaCompras: [],
                         ListaAnterior: [],
                         Direccion: "",
-                        telefono: ""
+                        Telefono: ""
                     });
                 });
         });
     }, []);
 
-    const anterior=user.ListaAnterior;
+
+
+    function EditarPerfil() {
+        setEstado(false);
+        setEstado2(true);
+        if (estado == false) {
+            console.log("entra");
+            user.Nombre = nombre;
+            user.Direccion = direccion;
+            user.Telefono = telefono;
+            modificarUsuario(user);
+            setShow(true);
+            setEstado2(false);
+            setEstado(true);
+        }
+    }
+
+
+    function EditarPerfil2() {
+        setEstado(false);
+        setEstado2(true);
+        if (estado == false) {
+            console.log("entra2");
+            //setShow2(true);
+            console.log(respuesta);
+            if (respuesta == true) {
+                console.log("Si");
+            } else {
+                console.log("No");
+            }
+        }
+    }
+
+    const handleClose = () => setShow2(false);
+
+    const handleR1 = () => {
+        setRespuesta(true);
+        setShow2(false);
+        EditarPerfil2();
+    };
+
+    const handleR2 = () => {
+        setRespuesta(false);
+        setShow2(false);
+        EditarPerfil2();
+    };
+
+
+    const anterior = user.ListaAnterior;
     console.log("datos");
     console.log(user);
     const navigate = useNavigate();
@@ -75,6 +137,21 @@ function Profile() {
     }
     return (
         <Container fluid>
+            <Row>
+                <Col>
+                    <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+                        <Toast.Header>
+                            <img
+                                src="holder.js/20x20?text=%20"
+                                className="rounded me-2"
+                                alt=""
+                            />
+                            <strong className="me-auto">Perfil</strong>
+                        </Toast.Header>
+                        <Toast.Body>¡Perfil modificado con exito!</Toast.Body>
+                    </Toast>
+                </Col>
+            </Row>
             <Container fluid>
                 <Row>
                     <Col className="d-flex justify-content-center">
@@ -82,31 +159,32 @@ function Profile() {
                             <Form className='perfil'>
                                 <Form.Group className="mb-3" controlId="nameProfile">
                                     <Form.Label>Nombre</Form.Label>
-                                    <Form.Control type="text" placeholder="Jose Gomez" value={user.Nombre} disabled />
+                                    <Form.Control type="text" placeholder="Jose Gomez" value={(estado == true) ? user.Nombre : nombre} onChange={e => setNombre(e.target.value)} disabled={estado2 == false} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="emailProfile">
                                     <Form.Label>Correo</Form.Label>
-                                    <Form.Control type="email" placeholder="JoseGomez@gmail.com" value={user.correo} disabled />
+                                    <Form.Control type="email" placeholder="JoseGomez@gmail.com" value={correo} disabled />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="phoneProfile">
                                     <Form.Label>Telefono</Form.Label>
-                                    <Form.Control type="text" placeholder="0000-0000" value={user.telefono} disabled />
+                                    <Form.Control type="text" placeholder="0000-0000" value={(estado == true) ? user.Telefono : telefono} onChange={e => setTelefono(e.target.value)} disabled={estado2 == false} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="addressProfile">
                                     <Form.Label>Direccion</Form.Label>
-                                    <Form.Control type="text" placeholder="Res. Las Uvas, Tegucigalpa, Francisco Morazan" value={user.Direccion} disabled />
+                                    <Form.Control type="text" placeholder="Res. Las Uvas, Tegucigalpa, Francisco Morazan" value={(estado == true) ? user.Direccion : direccion} onChange={e => setDireccion(e.target.value)} disabled={estado2 == false} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="addressProfile">
                                     <Form.Label>Fecha de creacion</Form.Label>
                                     <Form.Control type="text" placeholder="Res. Las Uvas, Tegucigalpa, Francisco Morazan" value={user.createdAt} disabled />
                                 </Form.Group>
-                                <Button variant="primary" type="submit"
+                                <Button variant="primary"
                                     style={{
                                         backgroundColor: "#5AC4FF",
                                         borderColor: "#5AC4FF"
                                     }}
+                                    onClick={() => EditarPerfil()}
                                 >
-                                    Editar perfil
+                                    {(estado == true) ? "Editar Perfil" : "Guardar Perfil"}
                                 </Button>
                             </Form>
                         </Container>

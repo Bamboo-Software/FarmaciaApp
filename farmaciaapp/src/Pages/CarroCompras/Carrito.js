@@ -91,6 +91,9 @@ function Carrito() {
         }
     }
 
+    console.log("total");
+    console.log(total);
+
     const siguienteAnteriorBttn = () => {
         if (lista.length > 3) {
             return (<div className="mt-4 mx-4">
