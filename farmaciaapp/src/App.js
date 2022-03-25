@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import logito from "./assets/logoProvisional.jpg";
 import { contextoUser } from "./contexto/contexto";
 import carrito from "./assets/compra.svg";
-import { auth } from "./Firebase/firebase.utils";
+import { auth, firestore } from "./Firebase/firebase.utils";
 import { Button, Container } from "react-bootstrap";
 import { Col, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
@@ -48,9 +48,9 @@ function App() {
     Direccion: "",
     Telefono: ""
   });
-  let tama="";
+  let tama = "";
 
-  useEffect(() => {
+  /*useEffect(() => {
     auth.onAuthStateChanged(userAuth => {
       obtenerUsuario(!!userAuth ? userAuth.uid : null)
         .then(usuario => {
@@ -84,7 +84,37 @@ function App() {
           });
         });
     });
+    
+  }, []);*/
+
+  useEffect(() => {
+    auth.onAuthStateChanged(userAuth => {
+      if (userAuth.uid != null) {
+        firestore.collection("usuarios")
+          .where('UID', '==', userAuth.uid)
+          .onSnapshot((snapshot) => {
+            let ref="";
+            snapshot.docs.map((doc) => {
+              ref=doc.data();
+            });
+            console.log(ref);
+            setUser2({
+              Nombre: !!userAuth ? ref.Nombre : "",
+              //                  correo: userAuth.email,
+              fechaCreacion: !!userAuth ? ref.fechaCreacion.toDate() : "",
+              UID: !!userAuth ? ref.UID : "",
+              ListaCompras: !!userAuth ? ref.ListaCompras : [],
+              ListaAnterior: !!userAuth ? ref.ListaAnterior : [],
+              Direccion: !!userAuth ? ref.Direccion : "",
+              Telefono: !!userAuth ? (ref.Telefono ? ref.Telefono : "") : ""
+            });
+          });
+      } else {
+        console.log("fallo");
+      }
+    });
   }, []);
+
 
   const sendText = () => {
     setData(busqueda);

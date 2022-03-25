@@ -52,6 +52,8 @@ function Home({ sendText, recieveText }) {
     console.log(prueba.sendText);
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
+    const [show4, setShow4] = useState(false);
     const [productos, setProductos] = useState([]);
     const [Active, setActive] = useState([]);
     const [higiene, setHigiene] = useState([]);
@@ -219,13 +221,14 @@ function Home({ sendText, recieveText }) {
             if (user.ListaCompras.find(element => element.id == ID) != null) {
                 console.log("ya existe");
                 setShow2(true);
+                setShow4(true);
             } else {
                 if (productos.find(element => element.id == ID) != null) {
                     console.log("adentro");
                     user.ListaCompras.push(productos.find(element => {
                         return element.id == ID;
                     }));
-                  //  recieveText(user.ListaCompras.length);
+                    //  recieveText(user.ListaCompras.length);
                     modificarUsuario(user);
                     setShow(true);
                 }
@@ -234,9 +237,9 @@ function Home({ sendText, recieveText }) {
                     user.ListaCompras.push(mascarillas.find(element => {
                         return element.id == ID;
                     }));
-                 //   recieveText(user.ListaCompras.length);
+                    //   recieveText(user.ListaCompras.length);
                     modificarUsuario(user);
-                    setShow(true);
+                    setShow3(true);
                 }
 
                 if (higiene.find(element => element.id == ID) != null) {
@@ -244,9 +247,9 @@ function Home({ sendText, recieveText }) {
                     user.ListaCompras.push(higiene.find(element => {
                         return element.id == ID;
                     }));
-                //    recieveText(user.ListaCompras.length);
+                    //    recieveText(user.ListaCompras.length);
                     modificarUsuario(user);
-                    setShow(true);
+                    setShow3(true);
                 }
             }
 
@@ -400,6 +403,32 @@ function Home({ sendText, recieveText }) {
                 </Container>
 
                 <Container fluid>
+                    <Row>
+                        <Col>
+                            <Toast onClose={() => setShow3(false)} show={show3} delay={3000} autohide>
+                                <Toast.Header>
+                                    <img
+                                        src="holder.js/20x20?text=%20"
+                                        className="rounded me-2"
+                                        alt=""
+                                    />
+                                    <strong className="me-auto">Lista de compras</strong>
+                                </Toast.Header>
+                                <Toast.Body>¡Producto Agregado a la lista!</Toast.Body>
+                            </Toast>
+                            <Toast onClose={() => setShow4(false)} show={show4} delay={3000} autohide>
+                                <Toast.Header>
+                                    <img
+                                        src="holder.js/20x20?text=%20"
+                                        className="rounded me-2"
+                                        alt=""
+                                    />
+                                    <strong className="me-auto">Lista de compras</strong>
+                                </Toast.Header>
+                                <Toast.Body>Este producto ya se encuentra en la lista, por favor seleccione otro</Toast.Body>
+                            </Toast>
+                        </Col>
+                    </Row>
                     <p></p>
                     <Row>
                         <Col className="d-flex justify-content-start">
