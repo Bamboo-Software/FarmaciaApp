@@ -24,7 +24,7 @@ function Advertencia() {
                         <Row>
                             <Col className="d-flex justify-content-center">
                                 <p className="Parrafo">
-                                    Por favor verifique su correo antes de iniciar sesion
+                                    Por favor inicie sesion para acceder a esta pagina
                                 </p>
                             </Col>
                         </Row>
@@ -41,7 +41,7 @@ function Advertencia() {
                                     type="submit"
                                     onClick={handleClick}
                                 >
-                                    Regresar a la pagina anterior
+                                    Iniciar sesion
                                 </Button>
                             </Col>
                         </Row>

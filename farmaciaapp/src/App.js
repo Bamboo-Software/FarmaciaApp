@@ -93,9 +93,9 @@ function App() {
         firestore.collection("usuarios")
           .where('UID', '==', userAuth.uid)
           .onSnapshot((snapshot) => {
-            let ref="";
+            let ref = "";
             snapshot.docs.map((doc) => {
-              ref=doc.data();
+              ref = doc.data();
             });
             console.log(ref);
             setUser2({
@@ -222,11 +222,17 @@ function App() {
         <Route path="/Medicamentos" element={<Medicamentos sendText={data} />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
-        <Route path="/Profile" element={<Profile />} />
-        <Route path="/CarroCompras" element={<Carrito />} />
-        <Route path="/Profile" element={<Profile />} />
-        <Route path="/CarroCompras" element={<Carrito />} />
-        <Route path="/Advertencia" element={<Advertencia />} />
+        {user.isAuth ? (
+          <>
+            <Route path="/Profile" element={<Profile />} />
+            <Route path="/CarroCompras" element={<Carrito />} />
+          </>
+        ) : (
+          <>
+            <Route path="/Profile" element={<Advertencia />} />
+            <Route path="/CarroCompras" element={<Advertencia />} />
+          </>
+        )};
         <Route path="/Redireccion" element={<Redireccion />} />
       </Routes>
       <Contacto />
