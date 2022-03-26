@@ -14,6 +14,7 @@ import Redireccion from "./Components/login/Redireccion";
 import Higiene from "./Pages/Landing/higiene";
 import Mascarillas from "./Pages/Landing/mascarillas";
 import Medicamentos from "./Pages/Landing/medicamentos";
+import Pago from "./Pages/Pago/Pago";
 
 import { NavLink } from 'react-bootstrap';
 import searchIcon from "./assets/search_black_24dp.svg";
@@ -226,11 +227,13 @@ function App() {
           <>
             <Route path="/Profile" element={<Profile />} />
             <Route path="/CarroCompras" element={<Carrito />} />
+            <Route path="/Pago" element={<Pago />} />
           </>
         ) : (
           <>
             <Route path="/Profile" element={<Advertencia />} />
             <Route path="/CarroCompras" element={<Advertencia />} />
+            <Route path="/Pago" element={<Advertencia />} />
           </>
         )};
         <Route path="/Redireccion" element={<Redireccion />} />

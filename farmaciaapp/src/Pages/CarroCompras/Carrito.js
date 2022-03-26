@@ -12,6 +12,7 @@ import imgAnterior from "../../assets/before.svg";
 import { ButtonGroup } from "react-bootstrap";
 import "./Carrito.css";
 import Toast from 'react-bootstrap/Toast';
+import { useNavigate } from "react-router-dom";
 
 function Carrito() {
     const [show2, setShow2] = useState(false);
@@ -27,6 +28,12 @@ function Carrito() {
         Direccion: "",
         Telefono: ""
     });
+
+    const navigate = useNavigate();
+
+    function handleClick(path) {
+        navigate(path);
+    }
 
     const [cont, setCont] = useState(0);
     const [numeroPaginas, setNumeroPaginas] = useState(0);
@@ -193,7 +200,9 @@ function Carrito() {
                         backgroundColor: "#89E9A9",
                         borderColor: "#89E9A9",
                         color: "#000000"
-                    }}><img src={carrito} />Comprar</Button>
+                    }}
+                    onClick={()=>handleClick("/Pago")}
+                    ><img src={carrito} />Comprar</Button>
             </div>
             <p></p>
         </Container >
