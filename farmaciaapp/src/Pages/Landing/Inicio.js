@@ -18,6 +18,8 @@ import { firestore } from "../../Firebase/firebase.utils";
 import Toast from 'react-bootstrap/Toast';
 import { auth } from "../../Firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
+import { User } from "@auth0/auth0-react";
+import userEvent from "@testing-library/user-event";
 
 function Home({ sendText, recieveText }) {
     /*const busquedaDefault =
@@ -54,6 +56,7 @@ function Home({ sendText, recieveText }) {
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
     const [show4, setShow4] = useState(false);
+    const [show5, setShow5] = useState(false);
     const [productos, setProductos] = useState([]);
     const [Active, setActive] = useState([]);
     const [higiene, setHigiene] = useState([]);
@@ -215,44 +218,49 @@ function Home({ sendText, recieveText }) {
 
     function AddToCar(ID) {
         try {
-            console.log("ID seleccionado");
-            console.log(ID);
-            console.log("afuera");
-            if (user.ListaCompras.find(element => element.id == ID) != null) {
-                console.log("ya existe");
-                setShow2(true);
-                setShow4(true);
+            if (user.UID == '') {
+                console.log("no esta logeado");
+                setShow5(true);
             } else {
-                if (productos.find(element => element.id == ID) != null) {
-                    console.log("adentro");
-                    user.ListaCompras.push(productos.find(element => {
-                        return element.id == ID;
-                    }));
-                    //  recieveText(user.ListaCompras.length);
-                    modificarUsuario(user);
-                    setShow(true);
-                }
-                if (mascarillas.find(element => element.id == ID) != null) {
-                    console.log("adentro");
-                    user.ListaCompras.push(mascarillas.find(element => {
-                        return element.id == ID;
-                    }));
-                    //   recieveText(user.ListaCompras.length);
-                    modificarUsuario(user);
-                    setShow3(true);
+                console.log("ID seleccionado");
+                console.log(ID);
+                console.log("afuera");
+                if (user.ListaCompras.find(element => element.id == ID) != null) {
+                    console.log("ya existe");
+                    setShow2(true);
+                    setShow4(true);
+                } else {
+                    if (productos.find(element => element.id == ID) != null) {
+                        console.log("adentro");
+                        user.ListaCompras.push(productos.find(element => {
+                            return element.id == ID;
+                        }));
+                        //  recieveText(user.ListaCompras.length);
+                        modificarUsuario(user);
+                        setShow(true);
+                    }
+                    if (mascarillas.find(element => element.id == ID) != null) {
+                        console.log("adentro");
+                        user.ListaCompras.push(mascarillas.find(element => {
+                            return element.id == ID;
+                        }));
+                        //   recieveText(user.ListaCompras.length);
+                        modificarUsuario(user);
+                        setShow3(true);
+                    }
+
+                    if (higiene.find(element => element.id == ID) != null) {
+                        console.log("adentro");
+                        user.ListaCompras.push(higiene.find(element => {
+                            return element.id == ID;
+                        }));
+                        //    recieveText(user.ListaCompras.length);
+                        modificarUsuario(user);
+                        setShow3(true);
+                    }
                 }
 
-                if (higiene.find(element => element.id == ID) != null) {
-                    console.log("adentro");
-                    user.ListaCompras.push(higiene.find(element => {
-                        return element.id == ID;
-                    }));
-                    //    recieveText(user.ListaCompras.length);
-                    modificarUsuario(user);
-                    setShow3(true);
-                }
             }
-
             console.log("encontro: ");
             console.log(user);
         } catch (error) {
@@ -314,6 +322,17 @@ function Home({ sendText, recieveText }) {
                     <p></p>
                     <Row>
                         <Col>
+                            <Toast onClose={() => setShow5(false)} show={show5} delay={3000} autohide>
+                                <Toast.Header>
+                                    <img
+                                        src="holder.js/20x20?text=%20"
+                                        className="rounded me-2"
+                                        alt=""
+                                    />
+                                    <strong className="me-auto">Lista de compras</strong>
+                                </Toast.Header>
+                                <Toast.Body>Por favor inicie sesion o registrese</Toast.Body>
+                            </Toast>
                             <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
                                 <Toast.Header>
                                     <img

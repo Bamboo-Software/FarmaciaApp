@@ -15,10 +15,9 @@ function Barra() {
                 <NavLink className="Links"onClick={() => handleClick("/Medicamentos")}>Medicamentos</NavLink>
                 <NavLink className="Links"onClick={() => handleClick("/Mascarillas")}>Mascarillas</NavLink>
                 <NavLink className="Links"onClick={() => handleClick("/Higiene")}>Higiene</NavLink>
-                <NavLink className="Links">Promociones</NavLink>
             </div>
         </>
     );
 }
-
+//    <NavLink className="Links">Promociones</NavLink>
 export default Barra;

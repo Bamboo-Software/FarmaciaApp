@@ -26,6 +26,7 @@ function Medicamentos({ sendText }) {
     const prueba = { sendText };
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
+    const [show5, setShow5] = useState(false);
     const [cont2, setCont2] = useState(0);
     const [numeroPaginas2, setNumeroPaginas2] = useState(0);
     const [user, setUser] = useState({
@@ -75,25 +76,29 @@ function Medicamentos({ sendText }) {
 
     function AddToCar(ID) {
         try {
-            console.log("ID seleccionado");
-            console.log(ID);
-            console.log("afuera");
-
-            if (user.ListaCompras.find(element => element.id == ID) != null) {
-                console.log("ya existe");
-                setShow2(true);
+            if (user.UID == '') {
+                setShow5(true);
             } else {
-                if (productos.find(element => element.id == ID) != null) {
-                    console.log("adentro");
-                    user.ListaCompras.push(productos.find(element => {
-                        return element.id == ID;
-                    }));
-                    modificarUsuario(user);
-                    setShow(true);
+                console.log("ID seleccionado");
+                console.log(ID);
+                console.log("afuera");
+
+                if (user.ListaCompras.find(element => element.id == ID) != null) {
+                    console.log("ya existe");
+                    setShow2(true);
+                } else {
+                    if (productos.find(element => element.id == ID) != null) {
+                        console.log("adentro");
+                        user.ListaCompras.push(productos.find(element => {
+                            return element.id == ID;
+                        }));
+                        modificarUsuario(user);
+                        setShow(true);
+                    }
                 }
+                console.log("encontro: ");
+                console.log(user);
             }
-            console.log("encontro: ");
-            console.log(user);
         } catch (error) {
             console.log(error);
         }
@@ -187,6 +192,17 @@ function Medicamentos({ sendText }) {
                 <p></p>
                 <Row>
                     <Col>
+                        <Toast onClose={() => setShow5(false)} show={show5} delay={3000} autohide>
+                            <Toast.Header>
+                                <img
+                                    src="holder.js/20x20?text=%20"
+                                    className="rounded me-2"
+                                    alt=""
+                                />
+                                <strong className="me-auto">Lista de compras</strong>
+                            </Toast.Header>
+                            <Toast.Body>Por favor inicie sesion o registrese</Toast.Body>
+                        </Toast>
                         <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
                             <Toast.Header>
                                 <img

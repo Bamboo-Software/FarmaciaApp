@@ -175,7 +175,7 @@ function Profile() {
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="addressProfile">
                                     <Form.Label>Fecha de creacion</Form.Label>
-                                    <Form.Control type="text" placeholder="Res. Las Uvas, Tegucigalpa, Francisco Morazan" value={user.createdAt} disabled />
+                                    <Form.Control type="text" placeholder="Res. Las Uvas, Tegucigalpa, Francisco Morazan" value={user.fechaCreacion} disabled />
                                 </Form.Group>
                                 <Button variant="primary"
                                     style={{

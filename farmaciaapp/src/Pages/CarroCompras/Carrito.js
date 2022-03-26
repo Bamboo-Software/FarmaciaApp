@@ -137,47 +137,48 @@ function Carrito() {
                     <h1>Articulos </h1>
                 </div>
                 <p></p>
-                <Col className="d-flex justify-content-center">
-                    <Row xs={2} md={4} className="g-4">
-                        {Array.isArray(lista) && Boolean(lista.length) ? (
-                            lista.slice().map((elem, index) => {
-                                total += elem.precio;
-                                return (
-                                    <Card className="tarjeta" key={index.toString}>
-                                        <div className="card-img-top">
-                                            <Card.Img className="w-100" variant="top" src={elem.imagen} />
-                                        </div>
-                                        <Card.Body>
-                                            <div className="d-flex justify-content-center">
-                                                <Card.Title>{elem.nombre}</Card.Title>
+                <div className="d-flex justify-content-center">
+                    <Col className="d-flex justify-content-center">
+                        <Row xs={2} md={4} className="g-4">
+                            {Array.isArray(lista) && Boolean(lista.length) ? (
+                                lista.slice().map((elem, index) => {
+                                    total += elem.precio;
+                                    return (
+                                        <Card className="tarjeta" key={index.toString}>
+                                            <div className="card-img-top">
+                                                <Card.Img className="w-100" variant="top" src={elem.imagen} />
                                             </div>
-                                            <div className="d-flex justify-content-center">
-                                                <Card.Text>
-                                                    {elem.precio} lps.
-                                                </Card.Text>
-                                            </div>
-                                            <div className="d-flex justify-content-center">
-                                                <Button variant="danger" type="submit"
-                                                    style={{
-                                                        marginTop: "2px"
-                                                    }}
-                                                    onClick={() => eliminarArticulo(elem.id)}
-                                                >Eliminar de la lista</Button>
-                                            </div>
-                                        </Card.Body>
-                                    </Card>
-                                );
-                            })
-                        ) : (
-                            <div className="d-flex justify-content-center">
-                                <h1 className="text-center">
-                                    Aun no hay articulos en el carro :c
-                                </h1>
-                            </div>
-                        )}
-                    </Row>
-                </Col>
-
+                                            <Card.Body>
+                                                <div className="d-flex justify-content-center">
+                                                    <Card.Title>{elem.nombre}</Card.Title>
+                                                </div>
+                                                <div className="d-flex justify-content-center">
+                                                    <Card.Text>
+                                                        {elem.precio} lps.
+                                                    </Card.Text>
+                                                </div>
+                                                <div className="d-flex justify-content-center">
+                                                    <Button variant="danger" type="submit"
+                                                        style={{
+                                                            marginTop: "2px"
+                                                        }}
+                                                        onClick={() => eliminarArticulo(elem.id)}
+                                                    >Eliminar de la lista</Button>
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
+                                    );
+                                })
+                            ) : (
+                                <div className="d-flex justify-content-center">
+                                    <h1 className="text-center">
+                                        Aun no hay articulos en el carro :c
+                                    </h1>
+                                </div>
+                            )}
+                        </Row>
+                    </Col>
+                </div>
             </Row>
             <p></p>
             <div className="d-flex justify-content-center">
