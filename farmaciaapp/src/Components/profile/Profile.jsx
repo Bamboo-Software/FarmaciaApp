@@ -31,6 +31,7 @@ function Profile() {
     const [estado2, setEstado2] = useState(false);
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
     const [respuesta, setRespuesta] = useState(false);
 
 
@@ -127,8 +128,38 @@ function Profile() {
         EditarPerfil2();
     };
 
-
     const anterior = user.ListaAnterior;
+
+    function AddToCar(ID) {
+        try {
+            if (user.UID == '') {
+    //            setShow5(true);
+            } else {
+                console.log("ID seleccionado");
+                console.log(ID);
+                console.log("afuera");
+
+                if (user.ListaCompras.find(element => element.id == ID) != null) {
+                    console.log("ya existe");
+                    setShow3(true);
+                } else {
+                    if (anterior.find(element => element.id == ID) != null) {
+                        console.log("adentro");
+                        user.ListaCompras.push(anterior.find(element => {
+                            return element.id == ID;
+                        }));
+                        modificarUsuario(user);
+                        setShow2(true);
+                    }
+                }
+                console.log("encontro: ");
+                console.log(user);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     console.log("datos");
     console.log(user);
     const navigate = useNavigate();
@@ -193,11 +224,37 @@ function Profile() {
             </Container>
             <Container fluid>
                 <Row>
+                    <Col>
+                        <Toast onClose={() => setShow2(false)} show={show2} delay={3000} autohide>
+                            <Toast.Header>
+                                <img
+                                    src="holder.js/20x20?text=%20"
+                                    className="rounded me-2"
+                                    alt=""
+                                />
+                                <strong className="me-auto">Lista de compras</strong>
+                            </Toast.Header>
+                            <Toast.Body>¡Producto Agregado a la lista!</Toast.Body>
+                        </Toast>
+                        <Toast onClose={() => setShow3(false)} show={show3} delay={3000} autohide>
+                            <Toast.Header>
+                                <img
+                                    src="holder.js/20x20?text=%20"
+                                    className="rounded me-2"
+                                    alt=""
+                                />
+                                <strong className="me-auto">Lista de compras</strong>
+                            </Toast.Header>
+                            <Toast.Body>Este producto ya se encuentra en la lista, por favor seleccione otro</Toast.Body>
+                        </Toast>
+                    </Col>
+                </Row>
+                <Row>
                     <h6>Productos comprados anteriormente</h6>
                     <Col className="d-flex justify-content-center">
-                        <Row xs={1} md={2} className="g-4">
+                        <Row xs={1} md={4} className="g-4">
                             {Array.isArray(anterior) && Boolean(anterior.length) ? (
-                                favs.slice().map((elem, index) => {
+                                anterior.slice().map((elem, index) => {
                                     return (
                                         <Card className="tarjeta" key={index.toString()}>
                                             <div className="card-img-top">
@@ -218,7 +275,9 @@ function Profile() {
                                                             backgroundColor: "#89E9A9",
                                                             borderColor: "#89E9A9",
                                                             color: "#000000"
-                                                        }}><img src={carrito} />Añadir</Button>
+                                                        }}
+                                                        onClick={() => AddToCar(elem.id)}
+                                                    ><img src={carrito} />Añadir</Button>
                                                 </div>
                                             </Card.Body>
                                         </Card>

@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 function Carrito() {
     const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
     var amount = "";
     var total = 0;
     const [user, setUser] = useState({
@@ -101,6 +102,14 @@ function Carrito() {
     console.log("total");
     console.log(total);
 
+    function irCompra() {
+        if (lista.length == 0) {
+            setShow3(true);
+        } else {
+            handleClick("/Pago");
+        }
+    }
+
     const siguienteAnteriorBttn = () => {
         if (lista.length > 3) {
             return (<div className="mt-4 mx-4">
@@ -136,6 +145,17 @@ function Carrito() {
                                 <strong className="me-auto">Lista de compras</strong>
                             </Toast.Header>
                             <Toast.Body>¡Producto eliminado con exito!</Toast.Body>
+                        </Toast>
+                        <Toast onClose={() => setShow3(false)} show={show3} delay={3000} autohide>
+                            <Toast.Header>
+                                <img
+                                    src="holder.js/20x20?text=%20"
+                                    className="rounded me-2"
+                                    alt=""
+                                />
+                                <strong className="me-auto">Lista de compras</strong>
+                            </Toast.Header>
+                            <Toast.Body>Carro vacio, agregue productos por favor</Toast.Body>
                         </Toast>
                     </Col>
                 </Row>
@@ -201,8 +221,8 @@ function Carrito() {
                         borderColor: "#89E9A9",
                         color: "#000000"
                     }}
-                    onClick={()=>handleClick("/Pago")}
-                    ><img src={carrito} />Comprar</Button>
+                    onClick={() => irCompra()}
+                ><img src={carrito} />Comprar</Button>
             </div>
             <p></p>
         </Container >

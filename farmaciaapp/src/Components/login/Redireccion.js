@@ -6,7 +6,7 @@ import { auth } from "../../Firebase/firebase.utils";
 function Redireccion() {
     const navigate = useNavigate();
     function handleClick() {
-        navigate("/Login");
+        navigate("/");
     }
     return (
         <Container fluid>
@@ -16,15 +16,14 @@ function Redireccion() {
                         <Row>
                             <Col className="d-flex justify-content-center">
                                 <h1>
-                                    Un paso más
+                                    Estado de compra
                                 </h1>
                             </Col>
                         </Row>
                         <Row>
                             <Col className="d-flex justify-content-center">
                                 <p className="Parrafo">
-                                    ¡Al registrarse recibira un correo de verificacion, por favor
-                                    revisar su correo en la bandeja de entrada o correo no deseado/Spam!
+                                    ¡Compra realizada con exito! para mas informacion puede usar la informacion de contacto.
                                 </p>
                             </Col>
                         </Row>
@@ -42,7 +41,7 @@ function Redireccion() {
                                     type="submit"
                                     onClick={handleClick}
                                 >
-                                    Iniciar Sesion
+                                    Volver a la pagina principal
                                 </Button>
                             </Col>
                         </Row>
