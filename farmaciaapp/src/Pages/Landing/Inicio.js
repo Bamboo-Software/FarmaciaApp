@@ -46,7 +46,7 @@ function Home({ sendText, recieveText }) {
     const [texto, setTexto] = useState("Añadir");
     const [estadoBoton, setEstadoBoton] = useState(true);
     const prueba = { sendText };
-    let MostPopular = [];
+    const MostPopular = [];
     //const [prueba, setPrueba] = useState({ sendText });
     // const prueba = "Sukrol";
     console.log("desde padre: ");
@@ -93,31 +93,30 @@ function Home({ sendText, recieveText }) {
 
         });
         obtenerHigiene().then(lista => {
-            setHigiene(lista);
-            let arreglo = lista;
-            console.log(arreglo);
-            const Nombre = prueba.sendText;
-            if (!(Nombre === ""))
-                arreglo = arreglo.filter((elemento) => {
-                    return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
-                });
-            console.log("Higiene ", arreglo);
-            setHigiene(arreglo);
-        });
-        obtenerMascarilla().then(lista => {
-            setMascarillas(lista);
-            let arreglo = lista;
-
-            console.log(arreglo);
-            const Nombre = prueba.sendText;
-            if (!(Nombre === ""))
-                arreglo = arreglo.filter((elemento) => {
-                    return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
-                });
-            console.log("Mascarilla ", arreglo);
-
-            setMascarillas(arreglo);
-        });
+             setHigiene(lista);
+             let arreglo = lista;
+             console.log(arreglo);
+             const Nombre = prueba.sendText;
+             if (!(Nombre === ""))
+                 arreglo = arreglo.filter((elemento) => {
+                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
+                 });
+             console.log("Higiene ",arreglo);
+             setHigiene(arreglo);
+         });
+         obtenerMascarilla().then(lista => {
+             setMascarillas(lista);
+             let arreglo = lista;
+             
+             console.log(arreglo);
+             const Nombre = prueba.sendText;
+             if (!(Nombre === ""))
+                 arreglo = arreglo.filter((elemento) => {
+                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
+                 });
+             console.log(arreglo);
+             setMascarillas(arreglo);
+         });
     }, [sendText]);
 
     useEffect(() => {
