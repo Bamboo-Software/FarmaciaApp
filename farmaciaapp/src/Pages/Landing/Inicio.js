@@ -9,6 +9,11 @@ import test from "../../assets/test1.jpg";
 import test2 from "../../assets/ImagenTest1.jpg";
 import carrito from "../../assets/compra.svg";
 import basurero from "../../assets/basurero.svg";
+import img1 from "../../assets/img1.jpeg";
+import img2 from "../../assets/img2.jpeg";
+import img3 from "../../assets/img3.jpeg";
+import img4 from "../../assets/img4.jpeg";
+import img5 from "../../assets/img5.jpeg";
 import imgSiguiente from "../../assets/next.svg";
 import imgAnterior from "../../assets/before.svg";
 import { ButtonGroup } from "react-bootstrap";
@@ -49,9 +54,9 @@ function Home({ sendText, recieveText }) {
     const MostPopular = [];
     //const [prueba, setPrueba] = useState({ sendText });
     // const prueba = "Sukrol";
-    console.log("desde padre: ");
+   // console.log("desde padre: ");
     //console.log(props.data);
-    console.log(prueba.sendText);
+  //  console.log(prueba.sendText);
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
@@ -82,39 +87,38 @@ function Home({ sendText, recieveText }) {
         obtenerProductos().then(lista => {
             setProductos(lista);
             let arreglo = lista;
-            console.log(arreglo);
+           // console.log(arreglo);
             const Nombre = prueba.sendText;
             if (!(Nombre === ""))
                 arreglo = arreglo.filter((elemento) => {
                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                 });
-            console.log(" producto ", arreglo);
+          //  console.log(" producto ", arreglo);
             setProductos(arreglo);
-
         });
         obtenerHigiene().then(lista => {
              setHigiene(lista);
              let arreglo = lista;
-             console.log(arreglo);
+            // console.log(arreglo);
              const Nombre = prueba.sendText;
              if (!(Nombre === ""))
                  arreglo = arreglo.filter((elemento) => {
                      return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                  });
-             console.log("Higiene ",arreglo);
+            // console.log("Higiene ",arreglo);
              setHigiene(arreglo);
          });
          obtenerMascarilla().then(lista => {
              setMascarillas(lista);
              let arreglo = lista;
              
-             console.log(arreglo);
+          //   console.log(arreglo);
              const Nombre = prueba.sendText;
              if (!(Nombre === ""))
                  arreglo = arreglo.filter((elemento) => {
                      return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                  });
-             console.log(arreglo);
+            // console.log(arreglo);
              setMascarillas(arreglo);
          });
     }, [sendText]);
@@ -123,9 +127,9 @@ function Home({ sendText, recieveText }) {
         auth.onAuthStateChanged(userAuth => {
             obtenerUsuario(!!userAuth ? userAuth.uid : null)
                 .then(usuario => {
-                    console.log("Entre a usuario")
+                  //  console.log("Entre a usuario")
                     const ref = usuario;
-                    console.log(ref);
+                  //  console.log(ref);
                     setUser({
                         Nombre: !!userAuth ? ref.Nombre : "",
                         //                  correo: userAuth.email,
@@ -138,8 +142,8 @@ function Home({ sendText, recieveText }) {
                     });
                 })
                 .catch((err) => {
-                    console.log("Quiebro aca")
-                    console.log(err);
+                    //console.log("Quiebro aca")
+                   // console.log(err);
                     setUser({
                         Nombre: "",
                         //correo: "",
@@ -218,19 +222,19 @@ function Home({ sendText, recieveText }) {
     function AddToCar(ID) {
         try {
             if (user.UID == '') {
-                console.log("no esta logeado");
+               // console.log("no esta logeado");
                 setShow5(true);
             } else {
-                console.log("ID seleccionado");
-                console.log(ID);
-                console.log("afuera");
+               // console.log("ID seleccionado");
+                //console.log(ID);
+               // console.log("afuera");
                 if (user.ListaCompras.find(element => element.id == ID) != null) {
-                    console.log("ya existe");
+                    //console.log("ya existe");
                     setShow2(true);
                     setShow4(true);
                 } else {
                     if (productos.find(element => element.id == ID) != null) {
-                        console.log("adentro");
+                       // console.log("adentro");
                         user.ListaCompras.push(productos.find(element => {
                             return element.id == ID;
                         }));
@@ -239,7 +243,7 @@ function Home({ sendText, recieveText }) {
                         setShow(true);
                     }
                     if (mascarillas.find(element => element.id == ID) != null) {
-                        console.log("adentro");
+                       // console.log("adentro");
                         user.ListaCompras.push(mascarillas.find(element => {
                             return element.id == ID;
                         }));
@@ -249,7 +253,7 @@ function Home({ sendText, recieveText }) {
                     }
 
                     if (higiene.find(element => element.id == ID) != null) {
-                        console.log("adentro");
+                       // console.log("adentro");
                         user.ListaCompras.push(higiene.find(element => {
                             return element.id == ID;
                         }));
@@ -260,10 +264,10 @@ function Home({ sendText, recieveText }) {
                 }
 
             }
-            console.log("encontro: ");
-            console.log(user);
+           // console.log("encontro: ");
+            //console.log(user);
         } catch (error) {
-            console.log(error);
+           // console.log(error);
         }
     }
 
@@ -290,7 +294,7 @@ function Home({ sendText, recieveText }) {
                                 <div className="carousel">
                                     <img
                                         className="d-block w-100"
-                                        src={test}
+                                        src={img1}
                                         alt="First slide"
                                     />
                                 </div>
@@ -300,7 +304,7 @@ function Home({ sendText, recieveText }) {
                                 <div className="carousel">
                                     <img
                                         className="d-block w-100"
-                                        src={test}
+                                        src={img2}
                                         alt="First slide"
                                     />
                                 </div>
@@ -309,7 +313,25 @@ function Home({ sendText, recieveText }) {
                                 <div className="carousel">
                                     <img
                                         className="d-block w-100"
-                                        src={test}
+                                        src={img3}
+                                        alt="First slide"
+                                    />
+                                </div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="carousel">
+                                    <img
+                                        className="d-block w-100"
+                                        src={img4}
+                                        alt="First slide"
+                                    />
+                                </div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="carousel">
+                                    <img
+                                        className="d-block w-100"
+                                        src={img5}
                                         alt="First slide"
                                     />
                                 </div>

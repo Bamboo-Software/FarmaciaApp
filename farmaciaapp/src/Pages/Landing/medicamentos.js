@@ -6,6 +6,11 @@ import Card from 'react-bootstrap/Card';
 import { Container } from "react-bootstrap";
 import { Col, Row } from "react-bootstrap";
 import test from "../../assets/test1.jpg";
+import img1 from "../../assets/img1.jpeg";
+import img2 from "../../assets/img2.jpeg";
+import img3 from "../../assets/img3.jpeg";
+import img4 from "../../assets/img4.jpeg";
+import img5 from "../../assets/img5.jpeg";
 import test2 from "../../assets/ImagenTest1.jpg";
 import carrito from "../../assets/compra.svg";
 import getProductos from "./getProductos";
@@ -44,9 +49,9 @@ function Medicamentos({ sendText }) {
         auth.onAuthStateChanged(userAuth => {
             obtenerUsuario(!!userAuth ? userAuth.uid : null)
                 .then(usuario => {
-                    console.log("Entre a usuario")
+                   // console.log("Entre a usuario")
                     const ref = usuario;
-                    console.log(ref);
+                   // console.log(ref);
                     setUser({
                         Nombre: !!userAuth ? ref.Nombre : "",
                         //                  correo: userAuth.email,
@@ -59,7 +64,7 @@ function Medicamentos({ sendText }) {
                     });
                 })
                 .catch(() => {
-                    console.log("Quiebro aca")
+                  //  console.log("Quiebro aca")
                     setUser({
                         Nombre: "",
                         //correo: "",
@@ -79,16 +84,16 @@ function Medicamentos({ sendText }) {
             if (user.UID == '') {
                 setShow5(true);
             } else {
-                console.log("ID seleccionado");
-                console.log(ID);
-                console.log("afuera");
+              //  console.log("ID seleccionado");
+              //  console.log(ID);
+              //  console.log("afuera");
 
                 if (user.ListaCompras.find(element => element.id == ID) != null) {
-                    console.log("ya existe");
+                 //   console.log("ya existe");
                     setShow2(true);
                 } else {
                     if (productos.find(element => element.id == ID) != null) {
-                        console.log("adentro");
+                      //  console.log("adentro");
                         user.ListaCompras.push(productos.find(element => {
                             return element.id == ID;
                         }));
@@ -96,11 +101,11 @@ function Medicamentos({ sendText }) {
                         setShow(true);
                     }
                 }
-                console.log("encontro: ");
-                console.log(user);
+              //  console.log("encontro: ");
+               // console.log(user);
             }
         } catch (error) {
-            console.log(error);
+           // console.log(error);
         }
     }
 
@@ -108,18 +113,18 @@ function Medicamentos({ sendText }) {
         obtenerProductos().then(lista => {
             setProductos(lista);
             let arreglo = lista;
-            console.log(arreglo);
+          //  console.log(arreglo);
             const Nombre = prueba.sendText;
             if (!(Nombre === ""))
                 arreglo = arreglo.filter((elemento) => {
                     return elemento.nombre.toLowerCase().includes(Nombre.toLowerCase());
                 });
-            console.log(arreglo);
+         //   console.log(arreglo);
             setProductos(arreglo);
         });
     }, [sendText]);
 
-    console.log(productos);
+    // console.log(productos);
 
     const siguiente = (e) => {
         e.preventDefault();
@@ -161,7 +166,7 @@ function Medicamentos({ sendText }) {
                             <div className="carousel">
                                 <img
                                     className="d-block w-100"
-                                    src={test}
+                                    src={img1}
                                     alt="First slide"
                                 />
                             </div>
@@ -171,7 +176,7 @@ function Medicamentos({ sendText }) {
                             <div className="carousel">
                                 <img
                                     className="d-block w-100"
-                                    src={test}
+                                    src={img2}
                                     alt="First slide"
                                 />
                             </div>
@@ -180,7 +185,25 @@ function Medicamentos({ sendText }) {
                             <div className="carousel">
                                 <img
                                     className="d-block w-100"
-                                    src={test}
+                                    src={img3}
+                                    alt="First slide"
+                                />
+                            </div>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <div className="carousel">
+                                <img
+                                    className="d-block w-100"
+                                    src={img4}
+                                    alt="First slide"
+                                />
+                            </div>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <div className="carousel">
+                                <img
+                                    className="d-block w-100"
+                                    src={img5}
                                     alt="First slide"
                                 />
                             </div>

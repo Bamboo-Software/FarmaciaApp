@@ -54,9 +54,9 @@ function Pago() {
         auth.onAuthStateChanged(userAuth => {
             obtenerUsuario(!!userAuth ? userAuth.uid : null)
                 .then(usuario => {
-                    console.log("Entre a usuario")
+                  //  console.log("Entre a usuario")
                     const ref = usuario;
-                    console.log(ref);
+                    //console.log(ref);
                     setUser2({
                         Nombre: !!userAuth ? ref.Nombre : "",
                         //                  correo: userAuth.email,
@@ -95,27 +95,27 @@ function Pago() {
     });*/
     function RealizarCompra() {
         try {
-            console.log("entra");
+         //   console.log("entra");
             if (nombre == "") {
                 // setValidar(false);
                 setShow(true);
             } else {
                 user2.ListaAnterior = user2.ListaCompras;
                 user2.ListaCompras = [];
-                console.log(user2);
+             //   console.log(user2);
                 let pago = {
                     Nombre: nombre,
                     ID: user2.UID,
                     Direccion: user2.Direccion,
                     extra: extra
                 }
-                console.log(pago);
+               // console.log(pago);
                 agregarPago(pago);
                 modificarUsuario(user2);
                 handleClick("/Redireccion");
             }
         } catch (error) {
-            console.log(error);
+           // console.log(error);
         }
     }
 

@@ -6,6 +6,6 @@ export const agregarPago = async Pago => {
     try {
         return await firestore.collection("Pagos").doc().set(Pago);
     } catch (error) {
-        console.log(error);
+       // console.log(error);
     }
 };

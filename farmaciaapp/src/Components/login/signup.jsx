@@ -86,7 +86,7 @@ const Registro = () => {
             .createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 //userCredential.user.sendEmailVerification();
-                console.log('1');
+               // console.log('1');
                 const createdAt = new Date();
                 let usuario = {
                     UID: userCredential.user.uid,
@@ -98,7 +98,7 @@ const Registro = () => {
                     ListaAnterior: []
                 }
                 agregarUsuario(usuario);
-                console.log('2');
+                //console.log('2');
                 handleClick("/");
                 //auth.signOut();
                 //handleClick("/Redireccion");
@@ -120,8 +120,8 @@ const Registro = () => {
                         break;
 
                     default:
-                        console.log(err.code);
-                        console.log(err);
+                      //  console.log(err.code);
+                      //  console.log(err);
                         break;
                 }
             });

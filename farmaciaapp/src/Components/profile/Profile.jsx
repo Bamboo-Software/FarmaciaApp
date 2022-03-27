@@ -50,9 +50,9 @@ function Profile() {
         auth.onAuthStateChanged(userAuth => {
             obtenerUsuario(!!userAuth ? userAuth.uid : null)
                 .then(usuario => {
-                    console.log("Entre a usuario")
+                    //console.log("Entre a usuario")
                     const ref = usuario;
-                    console.log(ref);
+                   // console.log(ref);
                     setCorreo(userAuth.email);
                     setUser({
                         Nombre: !!userAuth ? ref.Nombre : "",
@@ -66,7 +66,7 @@ function Profile() {
                     });
                 })
                 .catch(() => {
-                    console.log("Quiebro aca")
+                   // console.log("Quiebro aca")
                     setUser({
                         Nombre: "",
                         //correo: "",
@@ -87,7 +87,7 @@ function Profile() {
         setEstado(false);
         setEstado2(true);
         if (estado == false) {
-            console.log("entra");
+         //   console.log("entra");
             user.Nombre = nombre;
             user.Direccion = direccion;
             user.Telefono = telefono;
@@ -107,9 +107,9 @@ function Profile() {
             //setShow2(true);
             console.log(respuesta);
             if (respuesta == true) {
-                console.log("Si");
+               // console.log("Si");
             } else {
-                console.log("No");
+               // console.log("No");
             }
         }
     }
@@ -135,16 +135,16 @@ function Profile() {
             if (user.UID == '') {
     //            setShow5(true);
             } else {
-                console.log("ID seleccionado");
-                console.log(ID);
-                console.log("afuera");
+              //  console.log("ID seleccionado");
+              //  console.log(ID);
+             //   console.log("afuera");
 
                 if (user.ListaCompras.find(element => element.id == ID) != null) {
-                    console.log("ya existe");
+                //    console.log("ya existe");
                     setShow3(true);
                 } else {
                     if (anterior.find(element => element.id == ID) != null) {
-                        console.log("adentro");
+                     //   console.log("adentro");
                         user.ListaCompras.push(anterior.find(element => {
                             return element.id == ID;
                         }));
@@ -152,16 +152,16 @@ function Profile() {
                         setShow2(true);
                     }
                 }
-                console.log("encontro: ");
-                console.log(user);
+              //  console.log("encontro: ");
+               // console.log(user);
             }
         } catch (error) {
-            console.log(error);
+           // console.log(error);
         }
     }
 
-    console.log("datos");
-    console.log(user);
+   // console.log("datos");
+    //console.log(user);
     const navigate = useNavigate();
     function handleClick(path) {
         navigate(path);

@@ -27,7 +27,7 @@ function Contexto(props) {
                         return;
                     }
                     const ref = usuario;
-                    console.log("Hola en user Context", usuario);
+                //    console.log("Hola en user Context", usuario);
                     setUser({
                         isAuth: !!userAuth,
                         name: !!userAuth ? ref.displayName : "",

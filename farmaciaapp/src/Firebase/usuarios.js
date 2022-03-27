@@ -18,28 +18,28 @@ export const obtenerUsuario = async id => {
   try {
     const user = auth.currentUser;
 
-    console.log("afuera");
+ //   console.log("afuera");
     if (user != null) {
       let ref = "";
-      console.log("adentro");
+    //  console.log("adentro");
       //const res = await firestore.collection("usuarios").doc('6ZI5S44GCHmquWLzuiDr').get();
       const res = await firestore.collection("usuarios").where('UID', '==', id).get().then((x) => {
         x.forEach((doc) => {
-          console.log(doc.id, "=>", doc.data());
+        //  console.log(doc.id, "=>", doc.data());
           ref = doc.data();
         })
       });
       return ref;
     }
   } catch (error) {
-    console.log(error);
+   // console.log(error);
   }
 
 };
 
 export const obtenerUsuarioActual = async () => {
   const user = auth.currentUser;
-  console.log(user.uid);
+ // console.log(user.uid);
   return await firestore
     .collection("usuarios")
     .where('UID', '==', user.uid.toString)
@@ -49,8 +49,8 @@ export const obtenerUsuarioActual = async () => {
       collection.forEach(doc => {
         users.push({ ...doc.data(), id: doc.id });
       });
-      console.log("firebase")
-      console.log(users);
+     // console.log("firebase")
+     // console.log(users);
       return users;
     });
 };
@@ -63,10 +63,10 @@ export const borrarUsuario = async () => {
       .doc(user.uid)
       .delete()
       .then(() => {
-        console.log("Document successfully deleted!");
+       // console.log("Document successfully deleted!");
       })
       .catch((error) => {
-        console.error("Error removing document: ", error);
+      //  console.error("Error removing document: ", error);
       });
   }
 };
@@ -77,7 +77,7 @@ export const modificarUsuario = async (usuario) => {
     try {
       await firestore.collection("usuarios").doc(user.uid).set(usuario);
     } catch (error) {
-      console.error(error);
+    //  console.error(error);
     }
   }
 };
@@ -87,7 +87,7 @@ export const agregarUsuario = async usuario => {
   try {
     return await firestore.collection("usuarios").doc(user.uid).set(usuario);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 };
 
@@ -112,7 +112,7 @@ export const crearDocumentoUsuarios = async (additionalData) => {
           ...additionalData,
         });
       } catch (error) {
-        console.log("Error creating user", error.message);
+     //   console.log("Error creating user", error.message);
       }
     }
     return userRef;

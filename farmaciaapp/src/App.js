@@ -31,13 +31,13 @@ import { obtenerUsuario, modificarUsuario } from "./Firebase/usuarios";
 function App() {
   const [busqueda, setBusqueda] = useState("");
   const [data, setData] = useState("");
-  console.log(busqueda);
+  //console.log(busqueda);
   const navigate = useNavigate();
   const user = useContext(contextoUser);
   const [size, setSize] = useState("");
 
-  console.log("tamaño arreglo: ");
-  console.log(size);
+  //console.log("tamaño arreglo: ");
+  //console.log(size);
 
   const [user2, setUser2] = useState({
     Nombre: "",
@@ -98,7 +98,7 @@ function App() {
             snapshot.docs.map((doc) => {
               ref = doc.data();
             });
-            console.log(ref);
+   //         console.log(ref);
             setUser2({
               Nombre: !!userAuth ? ref.Nombre : "",
               //                  correo: userAuth.email,
@@ -111,7 +111,7 @@ function App() {
             });
           });
       } else {
-        console.log("fallo");
+ //       console.log("fallo");
       }
     });
   }, []);

@@ -43,9 +43,9 @@ function Carrito() {
         auth.onAuthStateChanged(userAuth => {
             obtenerUsuario(!!userAuth ? userAuth.uid : null)
                 .then(usuario => {
-                    console.log("Entre a usuario")
+                  //  console.log("Entre a usuario")
                     const ref = usuario;
-                    console.log(ref);
+                  //  console.log(ref);
                     setUser({
                         Nombre: !!userAuth ? ref.Nombre : "",
                         //                  correo: userAuth.email,
@@ -58,8 +58,8 @@ function Carrito() {
                     });
                 })
                 .catch((err) => {
-                    console.log("Quiebro aca")
-                    console.log(err);
+                   // console.log("Quiebro aca")
+                   // console.log(err);
                     setUser({
                         Nombre: "",
                         //correo: "",
@@ -99,8 +99,8 @@ function Carrito() {
         }
     }
 
-    console.log("total");
-    console.log(total);
+   // console.log("total");
+   // console.log(total);
 
     function irCompra() {
         if (lista.length == 0) {
@@ -126,8 +126,8 @@ function Carrito() {
         });
         modificarUsuario(user);
         setShow2(true);
-        console.log("resultado");
-        console.log(user);
+        //console.log("resultado");
+        //console.log(user);
     };
     return (
         <Container fluid>
